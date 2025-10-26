@@ -1,6 +1,6 @@
 # Getting Started
 
-To get started with &lambda;Loop, you can add it as a dependency to your project.
+To get started with λLoop, you can add it as a dependency to your project.
 
 ## Maven Dependency
 
@@ -14,7 +14,7 @@ To get started with &lambda;Loop, you can add it as a dependency to your project
 
 ## Usage
 
-Here is a simple example of how to use &lambda;Loop:
+Here is a simple example of how to use λLoop:
 
 ```java
 import ste.lloop.Loop;

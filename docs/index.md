@@ -1,8 +1,8 @@
-# &lambda;Loop Documentation
+# λLoop Documentation
 
-Welcome to the documentation for the &lambda;Loop library.
+Welcome to the documentation for the λLoop library.
 
-&lambda;Loop provides a fluent and expressive way to create loops in Java.
+λLoop provides a fluent and expressive way to create loops in Java.
 
 ## Topics
 
