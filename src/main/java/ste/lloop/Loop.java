@@ -47,8 +47,12 @@ public class Loop {
      * @param consumer the consumer to execute for each value in the loop
      */
     public void loop(Consumer<Integer> consumer) {
-        for (int i = from; i <= to; i++) {
+        int i = from;
+        int step = (from > to) ? -1 : 1;
+
+        while ((step == 1 && i <= to) || (step == -1 && i >= to)) {
             consumer.accept(i);
+            i += step;
         }
     }
 }

@@ -28,4 +28,16 @@ public class LoopTest {
         Loop.from(0).to(10).loop(i -> counter.incrementAndGet());
         then(counter.get()).isEqualTo(11);
     }
+
+    @Test
+    public void loop_executes_backwards_when_from_is_greater_than_to() {
+        final AtomicInteger counter = new AtomicInteger(0);
+        final StringBuilder sb = new StringBuilder();
+        Loop.from(10).to(0).loop(i -> {
+            counter.incrementAndGet();
+            sb.append(i);
+        });
+        then(counter.get()).isEqualTo(11);
+        then(sb.toString()).isEqualTo("109876543210");
+    }
 }
