@@ -19,7 +19,17 @@ public class Example {
     public static void main(String[] args) {
         // loops from 0 to 10 (inclusive)
         Loop.on().from(0).to(10).loop(i -> {
-            System.out.println("Hello, world! " + i);
+            // i will be 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+        });
+
+        // loops from 0 to 10, with a step of 2
+        Loop.on().from(0).to(10).step(2).loop(i -> {
+            // i will be 0, 2, 4, 6, 8, 10
+        });
+
+        // loops from 0 to 10, with a negative step of -2 (inverts direction)
+        Loop.on().from(0).to(10).step(-2).loop(i -> {
+            // i will be 10, 8, 6, 4, 2, 0
         });
     }
 }

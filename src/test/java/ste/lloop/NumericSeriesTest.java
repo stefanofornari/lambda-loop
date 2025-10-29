@@ -32,6 +32,11 @@ public class NumericSeriesTest {
         });
         then(counter.get()).isEqualTo(11);
         then(sb.toString()).isEqualTo("012345678910");
+
+        // from == to, no loop
+        final StringBuilder sb2 = new StringBuilder();
+        new NumericSeries().from(5).to(5).loop(sb2::append);
+        then(sb2.toString()).isEmpty();
     }
 
     @Test
@@ -52,5 +57,33 @@ public class NumericSeriesTest {
             new NumericSeries().from(0).loop(i -> {});
         }).isInstanceOf(IllegalStateException.class)
           .hasMessage("'to' has not been set");
+    }
+
+    @Test
+    public void loop_with_step() {
+        // from(0).to(10).step(2) -> 0,2,..,10
+        final StringBuilder sb1 = new StringBuilder();
+        new NumericSeries().from(0).to(10).step(2).loop(sb1::append);
+        then(sb1.toString()).isEqualTo("0246810");
+
+        // from(10).to(0).step(2) -> 10,8,..,0
+        final StringBuilder sb2 = new StringBuilder();
+        new NumericSeries().from(10).to(0).step(2).loop(sb2::append);
+        then(sb2.toString()).isEqualTo("1086420");
+
+        // from(0).to(10).step(-2) -> 10,8,..,0
+        final StringBuilder sb3 = new StringBuilder();
+        new NumericSeries().from(0).to(10).step(-2).loop(sb3::append);
+        then(sb3.toString()).isEqualTo("1086420");
+
+        // from(10).to(0).step(-2) -> 0,2,..,10
+        final StringBuilder sb4 = new StringBuilder();
+        new NumericSeries().from(10).to(0).step(-2).loop(sb4::append);
+        then(sb4.toString()).isEqualTo("0246810");
+
+        // step is zero, no loop
+        final StringBuilder sb5 = new StringBuilder();
+        new NumericSeries().from(0).to(10).step(0).loop(sb5::append);
+        then(sb5.toString()).isEmpty();
     }
 }

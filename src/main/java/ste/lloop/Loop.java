@@ -17,6 +17,16 @@ package ste.lloop;
  * Loop.on(new String[]{"a", "b", "c", "d"}).from(1).to(3).loop((index, element) -> {
  *    // do something with index and element
  * });
+ *
+ * // Numeric loop from 0 to 10, with a step of 2
+ * Loop.on().from(0).to(10).step(2).loop(i -> {
+ *     // i will be 0, 2, 4, 6, 8, 10
+ * });
+ *
+ * // Numeric loop from 0 to 10, with a negative step of -2 (inverts direction)
+ * Loop.on().from(0).to(10).step(-2).loop(i -> {
+ *     // i will be 10, 8, 6, 4, 2, 0
+ * });
  * }</pre>
  */
 public final class Loop {

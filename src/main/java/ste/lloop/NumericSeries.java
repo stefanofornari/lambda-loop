@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 public class NumericSeries {
     protected int from;
     protected Integer to;
+    protected int step = 1;
 
     public NumericSeries() {}
 
@@ -37,7 +38,25 @@ public class NumericSeries {
     }
 
     /**
+     * Sets the step of the loop. The sign of the step determines the direction of the loop.
+     * <p>
+     * If the step is positive, the loop will go from {@code from} to {@code to}.
+     * If the step is negative, the loop will go from {@code to} to {@code from}.
+     * <p>
+     * The absolute value of the step is used as the increment.
+     * If the step is zero, the loop will not execute.
+     *
+     * @param step the step value
+     * @return this {@link NumericSeries} instance
+     */
+    public NumericSeries step(int step) {
+        this.step = step;
+        return this;
+    }
+
+    /**
      * Executes the given consumer for each value in the loop.
+     * If {@code from} and {@code to} are equal, the loop will not execute.
      *
      * @param consumer the consumer to execute for each value
      */
@@ -46,12 +65,30 @@ public class NumericSeries {
             throw new IllegalStateException("'to' has not been set");
         }
 
-        int i = from;
-        int step = (from > to) ? -1 : 1;
+        if (from == to) {
+            return;
+        }
 
-        while ((step == 1 && i <= to) || (step == -1 && i >= to)) {
+        if (step == 0) {
+            return;
+        }
+
+        int start = from;
+        int end = to;
+
+        if (step < 0) {
+            start = to;
+            end = from;
+        }
+
+        final boolean isForward = end >= start;
+        final int increment = isForward ? Math.abs(step) : -Math.abs(step);
+
+        int i = start;
+
+        while ((isForward && i <= end) || (!isForward && i >= end)) {
             consumer.accept(i);
-            i += step;
+            i += increment;
         }
     }
 }
