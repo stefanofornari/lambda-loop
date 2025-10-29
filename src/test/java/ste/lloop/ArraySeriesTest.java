@@ -103,4 +103,18 @@ public class ArraySeriesTest {
         then(counter.get()).isEqualTo(0);
         then(sb.toString()).isEmpty();
     }
+
+    @Test
+    public void on_empty_array_does_not_loop() {
+        final AtomicInteger counter = new AtomicInteger(0);
+        final StringBuilder sb = new StringBuilder();
+
+        Loop.on(new String[]{}).loop((index, element) -> {
+            counter.incrementAndGet();
+            sb.append(index).append(":").append(element).append(",");
+        });
+
+        then(counter.get()).isEqualTo(0);
+        then(sb.toString()).isEmpty();
+    }
 }

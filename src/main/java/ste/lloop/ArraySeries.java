@@ -56,8 +56,8 @@ public class ArraySeries<T> {
      * @param consumer the consumer to execute for each element
      */
     public void loop(final BiConsumer<Integer, T> consumer) {
-        if (array == null) {
-            return; // Do nothing for null array
+        if (array == null || array.length == 0) {
+            return; // Do nothing for null or empty array
         }
 
         if (indexes.to == null) {
