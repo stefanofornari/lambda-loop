@@ -13,7 +13,7 @@ package ste.lloop;
  *     // do something with i
  * });
  *
- * // Loop over an array of strings, from index 1 up to (but not including) index 3
+ * // Loop over an array of strings, from index 1 up to (and including) index 3
  * Loop.on(new String[]{"a", "b", "c", "d"}).from(1).to(3).loop((index, element) -> {
  *    // do something with index and element
  * });
@@ -26,10 +26,10 @@ public final class Loop {
     /**
      * Creates a new numeric loop.
      *
-     * @return a new {@link NumericLoop} instance
+     * @return a new {@link NumericSeries} instance
      */
-    public static NumericLoop on() {
-        return new NumericLoop();
+    public static NumericSeries on() {
+        return new NumericSeries();
     }
 
     /**
@@ -37,9 +37,9 @@ public final class Loop {
      *
      * @param array the array to loop over
      * @param <T> the type of the elements in the array
-     * @return a new {@link ArrayLoop} instance
+     * @return a new {@link ArraySeries} instance
      */
-    public static <T> ArrayLoop<T> on(T[] array) {
-        return new ArrayLoop<>(array);
+    public static <T> ArraySeries<T> on(T[] array) {
+        return new ArraySeries<>(array);
     }
 }

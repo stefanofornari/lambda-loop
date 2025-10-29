@@ -8,19 +8,19 @@ import java.util.function.Consumer;
  * <p>This class is not meant to be instantiated directly. Use {@link Loop#on()} to start building a
  * numeric loop.
  */
-public class NumericLoop {
-    private int from;
-    private int to;
+public class NumericSeries {
+    protected int from;
+    protected Integer to;
 
-    NumericLoop() {}
+    public NumericSeries() {}
 
     /**
      * Sets the starting value of the loop (inclusive).
      *
      * @param from the starting value
-     * @return this {@link NumericLoop} instance
+     * @return this {@link NumericSeries} instance
      */
-    public NumericLoop from(int from) {
+    public NumericSeries from(int from) {
         this.from = from;
         return this;
     }
@@ -29,9 +29,9 @@ public class NumericLoop {
      * Sets the ending value of the loop (inclusive).
      *
      * @param to the ending value
-     * @return this {@link NumericLoop} instance
+     * @return this {@link NumericSeries} instance
      */
-    public NumericLoop to(int to) {
+    public NumericSeries to(int to) {
         this.to = to;
         return this;
     }
@@ -42,6 +42,10 @@ public class NumericLoop {
      * @param consumer the consumer to execute for each value
      */
     public void loop(Consumer<Integer> consumer) {
+        if (to == null) {
+            throw new IllegalStateException("'to' has not been set");
+        }
+
         int i = from;
         int step = (from > to) ? -1 : 1;
 
