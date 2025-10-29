@@ -5,9 +5,13 @@ Core Features:
 *   **Fluent API:** The library offers a chained, intuitive interface for building loops, starting with the `Loop` class.
 *   **Two Loop Types:**
     *   **Numeric Loops (`NumericSeries`):**
-        *   Iterate over a range of integers.
+        *   Iterate over a range of integers with optional step.
         *   Define a start (`from`) and end (`to`) value (inclusive).
-        *   Support both forward and backward iteration.
+        *   The `step` value determines the increment and can invert the loop direction:
+            *   Positive `step`: Loop from `from` to `to`.
+            *   Negative `step`: Loop from `to` to `from`.
+            *   Zero `step`: No loop execution.
+        *   If `from` equals `to`, the loop does not execute.
         *   Requires the `to` value to be set before execution.
     *   **Array Loops (`ArraySeries`):**
         *   Iterate over an array of any object type.
@@ -26,6 +30,6 @@ Functional Requirements & Constraints:
 Technical Requirements:
 
 *   **Language:** Java 11
-*   **Build:** Maven
+*   **Build:** Maven (use `mvnd` for faster builds)
 *   **Testing:** The project uses JUnit 5 and AssertJ for its test suite, which covers all core functionality and edge cases.
 *   **Testing Style:** Use BDD fluent assertions (`then()`) from AssertJ instead of `assertThat()`.

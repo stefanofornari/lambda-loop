@@ -48,10 +48,14 @@ import ste.lloop.Loop;
 
 public class Example {
     public static void main(String[] args) {
-        String[] array = {"a", "b", "c", "d", "e"};
+        // loops over items using varargs
+        Loop.on("a", "b", "c", "d", "e").from(1).to(4).loop((index, element) -> {
+            System.out.println("index: " + index + ", element: " + element);
+        });
 
-        // loops from index 1 to 4 (inclusive)
-        Loop.on(array).from(1).to(4).loop((index, element) -> {
+        String[] array = {"one", "two", "three"};
+        // loops over items using an array
+        Loop.on(array).from(0).to(2).loop((index, element) -> {
             System.out.println("index: " + index + ", element: " + element);
         });
 

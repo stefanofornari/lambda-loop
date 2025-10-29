@@ -43,13 +43,14 @@ public final class Loop {
     }
 
     /**
-     * Creates a new loop over the given array.
+     * Creates a new loop over the given items. This method supports both varargs and passing an array directly.
      *
-     * @param array the array to loop over
-     * @param <T> the type of the elements in the array
+     * @param items the items to loop over (can be varargs or an array)
+     * @param <T> the type of the items
      * @return a new {@link ArraySeries} instance
      */
-    public static <T> ArraySeries<T> on(T[] array) {
-        return new ArraySeries<>(array);
+    @SafeVarargs
+    public static <T> ArraySeries<T> on(T... items) {
+        return new ArraySeries<>(items);
     }
 }

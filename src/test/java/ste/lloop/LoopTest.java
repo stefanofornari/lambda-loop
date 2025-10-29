@@ -11,7 +11,9 @@ public class LoopTest {
     }
 
     @Test
-    public void on_array_returns_ArraySeries() {
-        then(Loop.on(new String[]{})).isInstanceOf(ArraySeries.class);
+    public void on_with_attay_returns_ArraySeries() {
+        then(Loop.on()).isInstanceOf(NumericSeries.class);
+        then(Loop.on("one", "two", "three")).isInstanceOf(ArraySeries.class);
+        then(Loop.on(new String[] { "one", "two", "three" })).isInstanceOf(ArraySeries.class);
     }
 }
