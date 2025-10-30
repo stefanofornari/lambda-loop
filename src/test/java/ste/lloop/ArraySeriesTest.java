@@ -132,4 +132,42 @@ public class ArraySeriesTest {
         then(counter.get()).isEqualTo(0);
         then(sb.toString()).isEmpty();
     }
+
+    @Test
+    public void loop_with_step() {
+        final String[] array = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
+
+        // from(0).to(10).step(2) -> 0,2,..,10
+        final StringBuilder sb1 = new StringBuilder();
+        new ArraySeries<>(array).from(0).to(10).step(2).loop((index, element) -> sb1.append(index).append(element));
+        then(sb1.toString()).isEqualTo("0a2c4e6g8i10k");
+
+        // from(10).to(0).step(2) -> 10,8,..,0
+        final StringBuilder sb2 = new StringBuilder();
+        new ArraySeries<>(array).from(10).to(0).step(2).loop((index, element) -> sb2.append(index).append(element));
+        then(sb2.toString()).isEqualTo("10k8i6g4e2c0a");
+
+        // from(0).to(10).step(-2) -> 10,8,..,0
+        final StringBuilder sb3 = new StringBuilder();
+        new ArraySeries<>(array).from(0).to(10).step(-2).loop((index, element) -> sb3.append(index).append(element));
+        then(sb3.toString()).isEqualTo("10k8i6g4e2c0a");
+
+        // from(10).to(0).step(-2) -> 0,2,..,10
+        final StringBuilder sb4 = new StringBuilder();
+        new ArraySeries<>(array).from(10).to(0).step(-2).loop((index, element) -> sb4.append(index).append(element));
+        then(sb4.toString()).isEqualTo("0a2c4e6g8i10k");
+
+        // step is zero, no loop
+        final StringBuilder sb5 = new StringBuilder();
+        new ArraySeries<>(array).from(0).to(10).step(0).loop((index, element) -> sb5.append(index).append(element));
+        then(sb5.toString()).isEmpty();
+    }
+
+    @Test
+    public void from_equals_to_does_not_loop() {
+        final String[] array = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
+        final StringBuilder sb = new StringBuilder();
+        new ArraySeries<>(array).from(5).to(5).loop((index, element) -> sb.append(index).append(element));
+        then(sb.toString()).isEmpty();
+    }
 }

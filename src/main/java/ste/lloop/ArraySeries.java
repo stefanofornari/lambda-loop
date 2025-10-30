@@ -23,6 +23,10 @@ import java.util.function.BiConsumer;
  * <p>This class is not meant to be instantiated directly. Use {@link Loop#on(Object[])} to start
  * building an array loop.
  *
+ * <p>The loop can be configured with a {@code from} index, a {@code to} index, and a {@code step} value.
+ * If {@code from} and {@code to} are equal, the loop will not execute.
+ * </p>
+ *
  * @param <T> the type of the elements in the array
  */
 public class ArraySeries<T> {
@@ -37,6 +41,22 @@ public class ArraySeries<T> {
     ArraySeries(T[] array) {
         this.array = array;
         this.indexes = new NumericSeries();
+    }
+
+    /**
+     * Sets the step of the loop. The sign of the step determines the direction of the loop.
+     * <p>
+     * If the step is positive, the loop will go from {@code from} to {@code to}.
+     * If the step is negative, the loop will go from {@code to} to {@code from}.
+     * <p>
+     * The absolute value of the step is used as the increment.
+     * If the step is zero, the loop will not execute.
+     *
+     * @param step the step value
+     * @return this {@link ArraySeries} instance
+     */
+    public ArraySeries<T> step(final int step) {
+        indexes.step(step); return this;
     }
 
     /**
