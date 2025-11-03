@@ -76,3 +76,36 @@ public class Example {
     }
 }
 ```
+
+### Capturing a return value
+
+A lambda expression can only access final or effectively final local variables. This means that you can't modify a local variable from within a lambda. For example, the following code will not compile:
+
+```java
+int count = 0;
+Loop.on("a", "b", "c").loop((index, element, r) -> {
+    count++; // compilation error
+});
+```
+
+To overcome this limitation, you can use a `ReturnValue` holder to capture the result.
+
+Here's an example of how to count the total number of characters in an array of strings:
+
+```java
+import ste.lloop.Loop;
+import ste.lloop.ReturnValue;
+
+public class Example {
+    public static void main(String[] args) {
+        final ReturnValue<Integer> totalChars = new ReturnValue<>(0);
+
+        Loop.on("a", "b", "c")
+            .loop((index, element) -> {
+                totalChars.value = totalChars.value + element.length();
+            });
+
+        System.out.println("Total characters: " + totalChars); // prints "Total characters: 3"
+    }
+}
+```
