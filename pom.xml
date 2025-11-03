@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.stefanofornari</groupId>
   <artifactId>lambda-loop</artifactId>
   <packaging>jar</packaging>
-  <version>0.1</version>
+  <version>1.0-SNAPSHOT</version>
   <name>λLoop</name>
   <description>A fluent and expressive way to create loops in Java.</description>
   <url>https://lambda-loop.github.io/</url>
@@ -25,7 +26,6 @@
     <connection>scm:git:git://github.com/stefanofornari/lambda-loop.git</connection>
     <developerConnection>scm:git:ssh://github.com:stefanofornari/lambda-loop.git</developerConnection>
     <url>https://github.com/stefanofornari/lambda-loop/tree/main</url>
-    <tag>lambda-loop-0.1</tag>
   </scm>
 
   <distributionManagement>
