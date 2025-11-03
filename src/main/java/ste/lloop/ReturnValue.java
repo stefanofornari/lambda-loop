@@ -15,13 +15,30 @@
  */
 package ste.lloop;
 
+/**
+ * A holder for a return value that can be used in a lambda expression.
+ *
+ * @param <R> the type of the return value
+ */
 public class ReturnValue<R> {
+
+    /**
+     * The value of the return value.
+     */
     public R value;
 
+    /**
+     * Constructs a new {@link ReturnValue} instance with the given value.
+     *
+     * @param value the initial value
+     */
     public ReturnValue(R value) {
         this.value = value;
     }
 
+    /**
+     * Constructs a new {@link ReturnValue} instance with a null value.
+     */
     public ReturnValue() {
         this(null);
     }

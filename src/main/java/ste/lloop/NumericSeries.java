@@ -24,10 +24,24 @@ import java.util.function.Consumer;
  * numeric loop.
  */
 public class NumericSeries {
+    /**
+     * The starting value of the loop (inclusive).
+     */
     protected int from;
+
+    /**
+     * The ending value of the loop (inclusive).
+     */
     protected Integer to;
+
+    /**
+     * The step of the loop.
+     */
     protected int step = 1;
 
+    /**
+     * Constructs a new {@link NumericSeries} instance.
+     */
     public NumericSeries() {}
 
     /**
