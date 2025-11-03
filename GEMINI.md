@@ -32,4 +32,9 @@ Technical Requirements:
 *   **Language:** Java 11
 *   **Build:** Maven (use `mvnd` for faster builds)
 *   **Testing:** The project uses JUnit 5 and AssertJ for its test suite, which covers all core functionality and edge cases.
-*   **Testing Style:** Use BDD fluent assertions (`then()`) from AssertJ instead of `assertThat()`.
+*   **Testing Style:** Use BDD fluent assertions (`then()`) from AssertJ instead of `assertThat()`
+
+## Documentation Guidelines
+
+- The `README.md` file should be kept short and code-focused.
+- The `getting-started.md` guide should be more discursive and detailed, providing use cases with a flow from simpler to more complex, and comparing implementations with normal loops or foreach and the corresponding λLoop version.

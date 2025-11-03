@@ -28,6 +28,11 @@ package ste.lloop;
  *     // do something with i
  * });
  *
+ * // Loop over an array of strings
+ * Loop.on("a", "b", "c").loop(element -> {
+ *    // do something with element
+ * });
+ *
  * // Loop over an array of strings, from index 1 up to (and including) index 3
  * Loop.on(new String[]{"a", "b", "c", "d"}).from(1).to(3).loop((index, element) -> {
  *    // do something with index and element
@@ -62,10 +67,10 @@ public final class Loop {
      *
      * @param items the items to loop over (can be varargs or an array)
      * @param <T> the type of the items
-     * @return a new {@link ArraySeries} instance
+     * @return a new {@link Sequence} instance
      */
     @SafeVarargs
-    public static <T> ArraySeries<T> on(T... items) {
-        return new ArraySeries<>(items);
+    public static <T> Sequence<T> on(T... items) {
+        return new Sequence<>(items);
     }
 }

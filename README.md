@@ -47,6 +47,11 @@ public class Example {
             System.out.println("index: " + index + ", element: " + element);
         });
 
+        // loops over items using varargs, without index
+        Loop.on("a", "b", "c").loop(element -> {
+            System.out.println("element: " + element);
+        });
+
         String[] array = {"one", "two", "three"};
         // loops over items using an array
         Loop.on(array).from(0).to(2).loop((index, element) -> {

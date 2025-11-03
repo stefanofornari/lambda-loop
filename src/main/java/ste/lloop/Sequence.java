@@ -16,6 +16,7 @@
 package ste.lloop;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * A loop over an array that can be configured with a starting and ending index.
@@ -25,11 +26,12 @@ import java.util.function.BiConsumer;
  *
  * <p>The loop can be configured with a {@code from} index, a {@code to} index, and a {@code step} value.
  * If {@code from} and {@code to} are equal, the loop will not execute.
+ * The loop can be executed by calling one of the two {@code loop} methods: one that provides both the index and the element, and one that provides only the element.
  * </p>
  *
  * @param <T> the type of the elements in the array
  */
-public class ArraySeries<T> {
+public class Sequence<T> {
     private final T[] array;
     private final NumericSeries indexes;
 
@@ -38,7 +40,7 @@ public class ArraySeries<T> {
      *
      * @param array the array to loop over
      */
-    ArraySeries(T[] array) {
+    Sequence(T[] array) {
         this.array = array;
         this.indexes = new NumericSeries();
     }
@@ -53,9 +55,9 @@ public class ArraySeries<T> {
      * If the step is zero, the loop will not execute.
      *
      * @param step the step value
-     * @return this {@link ArraySeries} instance
+     * @return this {@link Sequence} instance
      */
-    public ArraySeries<T> step(final int step) {
+    public Sequence<T> step(final int step) {
         indexes.step(step); return this;
     }
 
@@ -63,10 +65,10 @@ public class ArraySeries<T> {
      * Sets the starting index of the loop (inclusive).
      *
      * @param from the starting index
-     * @return this {@link ArraySeries} instance
+     * @return this {@link Sequence} instance
      * @throws IndexOutOfBoundsException if the 'from' value is less than zero
      */
-    public ArraySeries<T> from(final int from) {
+    public Sequence<T> from(final int from) {
         if (from < 0) {
             throw new IndexOutOfBoundsException("The 'from' value cannot be less than zero.");
         }
@@ -77,9 +79,9 @@ public class ArraySeries<T> {
      * Sets the ending index of the loop (inclusive).
      *
      * @param to the ending index
-     * @return this {@link ArraySeries} instance
+     * @return this {@link Sequence} instance
      */
-    public ArraySeries<T> to(final int to) {
+    public Sequence<T> to(final int to) {
         indexes.to(to); return this;
     }
 
@@ -103,5 +105,16 @@ public class ArraySeries<T> {
            }
         }
         indexes.loop((i) -> consumer.accept(i, array[i]));
+    }
+
+    /**
+     * Executes the given consumer for each element in the loop.
+     *
+     * <p>If the array provided to the constructor was {@code null}, this method will do nothing.
+     *
+     * @param consumer the consumer to execute for each element
+     */
+    public void loop(final Consumer<T> consumer) {
+        loop((index, element) -> consumer.accept(element));
     }
 }
