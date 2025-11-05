@@ -31,17 +31,10 @@ import java.util.function.Consumer;
  *
  * @param <T> the type of the elements in the array
  */
-public class Sequence<T> {
-    private final T[] array;
-    private final NumericSeries indexes;
+public abstract class Sequence<T> {
+    protected final NumericSeries indexes;
 
-    /**
-     * Constructs an {@code ArraySeries} instance.
-     *
-     * @param array the array to loop over
-     */
-    Sequence(T[] array) {
-        this.array = array;
+    Sequence() {
         this.indexes = new NumericSeries();
     }
 
@@ -92,20 +85,7 @@ public class Sequence<T> {
      *
      * @param consumer the consumer to execute for each element
      */
-    public void loop(final BiConsumer<Integer, T> consumer) {
-        if (array == null || array.length == 0) {
-            return; // Do nothing for null or empty array
-        }
-
-        if (indexes.to == null) {
-            indexes.to = array.length-1;
-        } else {
-           if (indexes.to > array.length-1) {
-               indexes.to = array.length-1;
-           }
-        }
-        indexes.loop((i) -> consumer.accept(i, array[i]));
-    }
+    public abstract void loop(final BiConsumer<Integer, T> consumer);
 
     /**
      * Executes the given consumer for each element in the loop.

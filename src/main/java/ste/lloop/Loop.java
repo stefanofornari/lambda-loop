@@ -70,7 +70,11 @@ public final class Loop {
      * @return a new {@link Sequence} instance
      */
     @SafeVarargs
-    public static <T> Sequence<T> on(T... items) {
-        return new Sequence<>(items);
+    public static <T> ArraySequence<T> on(T... items) {
+        return new ArraySequence<>(items);
+    }
+
+    public static <T> IterableSequence<T> on(Iterable<T> iterable) {
+        return new IterableSequence<>(iterable);
     }
 }

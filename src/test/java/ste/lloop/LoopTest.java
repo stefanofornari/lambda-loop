@@ -26,9 +26,14 @@ public class LoopTest {
     }
 
     @Test
-    public void on_with_attay_returns_Sequence() {
+    public void on_with_iterable_returns_IterableSequence() {
+        then(Loop.on(java.util.Arrays.asList("one", "two", "three"))).isInstanceOf(IterableSequence.class);
+    }
+
+    @Test
+    public void on_with_array_returns_ArraySequence() {
         then(Loop.on()).isInstanceOf(NumericSeries.class);
-        then(Loop.on("one", "two", "three")).isInstanceOf(Sequence.class);
-        then(Loop.on(new String[] { "one", "two", "three" })).isInstanceOf(Sequence.class);
+        then(Loop.on("one", "two", "three")).isInstanceOf(ArraySequence.class);
+        then(Loop.on(new String[] { "one", "two", "three" })).isInstanceOf(ArraySequence.class);
     }
 }
