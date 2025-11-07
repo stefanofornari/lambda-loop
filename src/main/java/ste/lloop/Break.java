@@ -1,0 +1,15 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package ste.lloop;
+
+/**
+ *
+ * @author ste
+ */
+public class Break extends RuntimeException {
+    public static void brk() throws Break {
+        throw new Break();
+    }
+}

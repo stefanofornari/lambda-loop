@@ -3,6 +3,7 @@ package ste.lloop;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.BDDAssertions.then;
 import java.util.concurrent.atomic.AtomicInteger;
+import static ste.lloop.Break.brk;
 
 public class LoopTest {
 
@@ -89,4 +90,13 @@ public class LoopTest {
         then(counter.get()).isEqualTo(3);
         then(sb.toString()).isEqualTo("1:b,2:c,3:d,");
     }
+    
+    @Test
+    public void test_retrn_value() {
+        Loop.on(new String[] {"a", "b", "c"}).loop((index, value) -> {
+            if (index==1) {
+                brk();
+            }
+        });
+   }
 }

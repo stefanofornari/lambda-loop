@@ -10,10 +10,26 @@ import java.util.function.BiConsumer;
  *
  * @param <T> the type of the elements in the array
  */
-public class ArrayLoop<T> {
+public final class ArrayLoop<T> {
+    
+    public static class ReturnValue extends RuntimeException {
+        private final Object value; // Store as Object
+        
+        // Constructor takes Object or uses an intermediate generic method
+        public ReturnValue(Object value) {
+            this.value = value;
+        }
+        
+        @SuppressWarnings("unchecked")
+        public <R> R getValue() { // Use a generic method for type-safe retrieval
+            return (R) value;
+        }
+    }
+    
     private final T[] array;
     private int from = 0;
     private int to;
+    private T ret;
 
     ArrayLoop(T[] array) {
         this.array = array;
@@ -49,7 +65,11 @@ public class ArrayLoop<T> {
      */
     public void loop(BiConsumer<Integer, T> consumer) {
         for (int i = from; i < to; i++) {
-            consumer.accept(i, array[i]);
+            try {
+                consumer.accept(i, array[i]);
+            } catch (Break r) {
+                return;
+            }
         }
     }
 }
