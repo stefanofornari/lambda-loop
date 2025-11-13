@@ -77,4 +77,27 @@ public final class Loop {
     public static <T> IterableSequence<T> on(Iterable<T> iterable) {
         return new IterableSequence<>(iterable);
     }
+
+    /**
+     * Throws a {@link ReturnValue} exception with the given value.
+     * This method is intended to be used inside a loop to break out of it
+     * and return a value.
+     *
+     * @param value the value to return
+     * @throws ReturnValue with the given value
+     */
+    public static void brk(Object value) {
+        throw new ReturnValue(value);
+    }
+
+    /**
+     * Same as brk() - which version do you prefer? please let me know, we will
+     * remove the less voted one.
+     *
+     * @param value the value to return
+     * @throws ReturnValue with the given value
+     */
+    public static void _break_(Object value) {
+        throw new ReturnValue(value);
+    }
 }

@@ -101,4 +101,15 @@ public class NumericSeriesTest {
         new NumericSeries().from(0).to(10).step(0).loop(sb5::append);
         then(sb5.toString()).isEmpty();
     }
+
+    @Test
+    public void loop_returns_value_on_break() {
+        final String expectedValue = "test value";
+        String result = new NumericSeries().from(0).to(10).<String>loop(i -> {
+            if (i == 5) {
+                Loop.brk(expectedValue);
+            }
+        });
+        then(result).isEqualTo(expectedValue);
+    }
 }

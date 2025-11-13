@@ -17,6 +17,7 @@
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 public class LoopTest {
 
@@ -35,5 +36,20 @@ public class LoopTest {
         then(Loop.on()).isInstanceOf(NumericSeries.class);
         then(Loop.on("one", "two", "three")).isInstanceOf(ArraySequence.class);
         then(Loop.on(new String[] { "one", "two", "three" })).isInstanceOf(ArraySequence.class);
+    }
+
+    @Test
+    public void brk_throws_ReturnValue() {
+        final String expectedValue = "test value";
+        thenThrownBy(() -> Loop.brk(expectedValue))
+            .isInstanceOf(ReturnValue.class)
+            .extracting("value")
+            .isEqualTo(expectedValue);
+
+        final Integer expectedIntValue = 123;
+        thenThrownBy(() -> Loop.brk(expectedIntValue))
+            .isInstanceOf(ReturnValue.class)
+            .extracting("value")
+            .isEqualTo(expectedIntValue);
     }
 }

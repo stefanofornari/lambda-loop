@@ -23,29 +23,44 @@ public class ReturnValueTest {
     @Test
     public void constructor_initializes_value() {
         final String initialString = "test";
-        ReturnValue<String> returnString = new ReturnValue<>(initialString);
-        then(returnString.value).isEqualTo(initialString);
+        ReturnValue value = new ReturnValue(initialString);
+        then((String)value.value()).isEqualTo(initialString);
 
         final int initialInt = 1;
-        ReturnValue<Integer> returnInt = new ReturnValue<>(initialInt);
-        then(returnInt.value).isEqualTo(initialInt);
+        value = new ReturnValue(initialInt);
+        then((int)value.value()).isEqualTo(initialInt);
 
-        returnString = new ReturnValue();
-        then(returnString.value).isNull();
+        value = new ReturnValue();
+        then((String)value.value()).isNull();
 
-        returnString = new ReturnValue(null);
-        then(returnString.value).isNull();
+        value = new ReturnValue(null);
+        then((Integer)value.value()).isNull();
     }
 
     @Test
     public void to_string_returns_value_as_string() {
-        final ReturnValue<Integer> returnValue = new ReturnValue<>(123);
-        then(returnValue.toString()).isEqualTo("123");
+        ReturnValue value = new ReturnValue(123);
+        then(value.toString()).isEqualTo("123");
 
-        final ReturnValue<String> stringReturnValue = new ReturnValue<>("hello");
-        then(stringReturnValue.toString()).isEqualTo("hello");
+        value = new ReturnValue("hello");
+        then(value.toString()).isEqualTo("hello");
 
-        final ReturnValue<Object> nullReturnValue = new ReturnValue<>(null);
-        then(nullReturnValue.toString()).isEqualTo("null");
+        value = new ReturnValue(null);
+        then(value.toString()).isEqualTo("null");
+    }
+
+    @Test
+    public void return_value_as_a_exeption() {
+        try {
+            throw new ReturnValue("hello");
+        } catch (ReturnValue v) {
+            then((String)v.value()).isEqualTo("hello");
+        }
+
+        try {
+            throw new ReturnValue(10);
+        } catch (ReturnValue v) {
+            then((Integer)v.value()).isEqualTo(10);
+        }
     }
 }

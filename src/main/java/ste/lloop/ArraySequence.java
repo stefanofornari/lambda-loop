@@ -26,9 +26,9 @@ class ArraySequence<T> extends Sequence<T> {
     }
 
     @Override
-    public void loop(final BiConsumer<Integer, T> consumer) {
+    public <R> R loop(final BiConsumer<Integer, T> consumer) {
         if (array == null || array.length == 0) {
-            return; // Do nothing for null or empty array
+            return null; // Do nothing for null or empty array
         }
 
         if (indexes.to == null) {
@@ -38,6 +38,6 @@ class ArraySequence<T> extends Sequence<T> {
                 indexes.to = array.length - 1;
             }
         }
-        indexes.loop((i) -> consumer.accept(i, array[i]));
+        return indexes.loop((i) -> consumer.accept(i, array[i]));
     }
 }

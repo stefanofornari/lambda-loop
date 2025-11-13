@@ -89,17 +89,17 @@ public class NumericSeries {
      *
      * @param consumer the consumer to execute for each value
      */
-    public void loop(Consumer<Integer> consumer) {
+    public <R> R loop(Consumer<Integer> consumer) {
         if (to == null) {
             throw new IllegalStateException("'to' has not been set");
         }
 
         if (from == to) {
-            return;
+            return null;
         }
 
         if (step == 0) {
-            return;
+            return null;
         }
 
         int start = from;
@@ -115,9 +115,14 @@ public class NumericSeries {
 
         int i = start;
 
-        while ((isForward && i <= end) || (!isForward && i >= end)) {
-            consumer.accept(i);
-            i += increment;
+        try {
+            while ((isForward && i <= end) || (!isForward && i >= end)) {
+                consumer.accept(i);
+                i += increment;
+            }
+        } catch (ReturnValue e) {
+            return e.value();
         }
+        return null;
     }
 }

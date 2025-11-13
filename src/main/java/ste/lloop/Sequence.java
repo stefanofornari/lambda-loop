@@ -85,7 +85,7 @@ public abstract class Sequence<T> {
      *
      * @param consumer the consumer to execute for each element
      */
-    public abstract void loop(final BiConsumer<Integer, T> consumer);
+    public abstract <R> R loop(final BiConsumer<Integer, T> consumer);
 
     /**
      * Executes the given consumer for each element in the loop.
@@ -94,7 +94,7 @@ public abstract class Sequence<T> {
      *
      * @param consumer the consumer to execute for each element
      */
-    public void loop(final Consumer<T> consumer) {
-        loop((index, element) -> consumer.accept(element));
+    public <R> R loop(final Consumer<T> consumer) {
+        return loop((index, element) -> consumer.accept(element));
     }
 }

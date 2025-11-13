@@ -1,6 +1,9 @@
 # Getting Started
 
-λLoop provides a fluent and expressive way to create loops in Java, moving away from the traditional, more verbose loop constructs. This guide will walk you through the features of λLoop, from basic loops to more advanced use cases, comparing them with standard Java loops.
+λLoop provides a fluent and expressive way to create loops in Java, moving away
+from the traditional, more verbose loop constructs. This guide will walk you
+through the features of λLoop, from basic loops to more advanced use cases,
+comparing them with standard Java loops.
 
 ## Maven Dependency
 
@@ -46,7 +49,8 @@ Looping over arrays or collections is another common use case.
 
 ### Traditional `for-each` loop
 
-The `for-each` loop is a simple way to iterate over the elements of a collection or array:
+The `for-each` loop is a simple way to iterate over the elements of a collection
+or array:
 
 ```java
 String[] array = {"a", "b", "c"};
@@ -70,7 +74,8 @@ Loop.on(array).loop(element -> {
 
 ### Traditional `for` loop with index
 
-If you need the index of the element, you would typically use a traditional `for` loop:
+What if you need the index of the element? you would typically have to fall back
+tp traditional `for` loop:
 
 ```java
 String[] array = {"a", "b", "c"};
@@ -81,7 +86,8 @@ for (int i = 0; i < array.length; i++) {
 
 ### λLoop equivalent with index
 
-λLoop makes this cleaner by providing the index and the element directly to the lambda:
+λLoop makes this cleaner by providing the index and the element directly to the
+lambda:
 
 ```java
 import ste.lloop.Loop;
@@ -114,7 +120,9 @@ Loop.on().from(0).to(10).step(2).loop(i -> {
 
 ### Looping Backwards
 
-Looping backwards is straightforward with λLoop. A negative step will automatically invert the loop direction. This can also be achieved by setting the `to` value to be less than the `from` value.
+Looping backwards is straightforward with λLoop. A negative step will
+automatically invert the loop direction. This can also be achieved by setting
+the `to` value to be less than the `from` value.
 
 ```java
 // Traditional for loop, looping backwards
@@ -135,7 +143,8 @@ Loop.on().from(10).to(0).loop(i -> {
 
 ### Looping over a sub-section of an array
 
-You can easily loop over a specific portion of an array by using the `from` and `to` methods.
+You can easily loop over a specific portion of an array by using the `from` and
+`to` methods.
 
 ```java
 String[] array = {"a", "b", "c", "d", "e"};
@@ -151,7 +160,8 @@ Loop.on(array).from(1).to(3).loop((index, element) -> {
 });
 ```
 
-Note: If the `to` value is greater than the array's length, λLoop will automatically cap it to the last valid index of the array.
+Note: If the `to` value is greater than the array's length, λLoop will
+automatically cap it to the last valid index of the array.
 
 ```java
 String[] array = {"a", "b", "c"};
@@ -168,7 +178,9 @@ Loop.on(array).from(0).to(100).loop((index, element) -> {
 
 ## Capturing a Return Value
 
-A common issue with lambda expressions is that they can only access final or effectively final local variables. This prevents you from modifying a local variable from within a lambda.
+A common issue with lambda expressions is that they can only access final or
+effectively final local variables. This prevents you from modifying a local
+variable from within a lambda.
 
 For example, the following code will not compile:
 
@@ -196,3 +208,72 @@ Loop.on("a", "b", "c")
 
 System.out.println("Total characters: " + totalChars); // prints "Total characters: 3"
 ```
+
+## Breaking out of a loop
+
+Have you ever been frustrated by the limitations of `forEach` when you need to
+break out of a loop and return a value?
+
+With a `forEach` loop, you cannot use `break` or `return` to exit the loop and
+return a value. You would need to use a more verbose approach, like a
+traditional `for` loop or a flag.
+
+For example, to find the first even number in a list with a `forEach` loop, you
+would have to do something like this:
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+final AtomicReference<Integer> firstEven = new AtomicReference<>();
+numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .findFirst()
+    .ifPresent(firstEven::set);
+```
+
+### The λLoop way
+
+With λLoop, you can use the `brk()` method to stop the loop and return a value.
+
+Here's how you can find the first even number in a range:
+
+```java
+import static ste.lloop.Loop.brk;
+import ste.lloop.Loop;
+
+Integer firstEven = Loop.on().from(1).to(100).<Integer>loop(i -> {
+    if (i % 2 == 0) {
+        brk(i);
+    }
+});
+
+System.out.println("The first even number is " + firstEven); // prints "The first even number is 2"
+```
+
+You can return any value you want, not just an element of the series.
+
+Here's an example where we loop through a list of strings and return a custom
+message when we find a specific element:
+
+```java
+import static ste.lloop.Loop.brk;
+import ste.lloop.Loop;
+import java.util.Arrays;
+import java.util.List;
+
+List<String> fruits = Arrays.asList("apple", "banana", "cherry", "date");
+
+String message = Loop.on(fruits).<String>loop((index, fruit) -> {
+    if (fruit.equals("cherry")) {
+        brk("Found a cherry at index " + index + "!");
+    }
+});
+
+System.out.println(message); // prints "Found a cherry at index 2!"
+```
+
+This approach allows you to exit the loop at any point and return a value,
+making your code more readable and expressive.

@@ -185,4 +185,15 @@ public class ArraySequenceTest {
         then(counter.get()).isEqualTo(3);
         then(sb.toString()).isEqualTo("a,b,c,");
     }
+
+    @Test
+    public void loop_returns_value_on_break() {
+        final String[] array = {"a", "b", "c", "d", "e"};
+        String result = new ArraySequence<>(array).<String>loop((index, element) -> {
+            if (index == 2) {
+                Loop.brk(element);
+            }
+        });
+        then(result).isEqualTo("c");
+    }
 }

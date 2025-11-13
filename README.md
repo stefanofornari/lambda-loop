@@ -74,6 +74,23 @@ public class Example {
         });
     }
 }
+
+### Breaking out of a loop
+
+```java
+import static ste.lloop.Loop.brk;
+import ste.lloop.Loop;
+
+public class Example {
+    public static void main(String[] args) {
+        Integer firstEven = Loop.on().from(1).to(100).<Integer>loop(i -> {
+            if (i % 2 == 0) {
+                brk(i);
+            }
+        });
+        System.out.println("The first even number is " + firstEven); // prints "The first even number is 2"
+    }
+}
 ```
 
 ## License

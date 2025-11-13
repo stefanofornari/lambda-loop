@@ -18,21 +18,20 @@ package ste.lloop;
 /**
  * A holder for a return value that can be used in a lambda expression.
  *
- * @param <R> the type of the return value
  */
-public class ReturnValue<R> {
+public class ReturnValue extends RuntimeException {
 
     /**
      * The value of the return value.
      */
-    public R value;
+    private Object value;
 
     /**
      * Constructs a new {@link ReturnValue} instance with the given value.
      *
      * @param value the initial value
      */
-    public ReturnValue(R value) {
+    public ReturnValue(Object value) {
         this.value = value;
     }
 
@@ -41,6 +40,10 @@ public class ReturnValue<R> {
      */
     public ReturnValue() {
         this(null);
+    }
+
+    public <R> R value() {
+        return (R)value;
     }
 
     @Override

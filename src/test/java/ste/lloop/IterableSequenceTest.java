@@ -84,4 +84,15 @@ public class IterableSequenceTest {
         then(counter.get()).isEqualTo(3);
         then(sb.toString()).isEqualTo("0:a,1:b,2:c,");
     }
+
+    @Test
+    public void loop_returns_value_on_break() {
+        final List<String> list = Arrays.asList("a", "b", "c", "d", "e");
+        String result = new IterableSequence<>(list).<String>loop((index, element) -> {
+            if (index == 2) {
+                Loop.brk(element);
+            }
+        });
+        then(result).isEqualTo("c");
+    }
 }

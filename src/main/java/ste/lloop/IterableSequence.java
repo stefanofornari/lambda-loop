@@ -35,9 +35,9 @@ class IterableSequence<T> extends Sequence<T> {
     }
 
     @Override
-    public void loop(BiConsumer<Integer, T> consumer) {
+    public <R> R loop(BiConsumer<Integer, T> consumer) {
         if (iterable == null) {
-            return; // Do nothing for null iterable
+            return null; // Do nothing for null iterable
         }
 
         //
@@ -51,7 +51,7 @@ class IterableSequence<T> extends Sequence<T> {
             if (iterator.hasNext()) {
                 iterator.next();
             } else {
-                return; // from is out of bounds
+                return null; // from is out of bounds
             }
         }
 
@@ -60,13 +60,18 @@ class IterableSequence<T> extends Sequence<T> {
         //
         int i = indexes.from;
         Integer to = indexes.to; // Unbox indexes.to once
-        while (iterator.hasNext()) {
-            if (to != null && i > to) { // Compare with unboxed 'to'
-                break;
+        try {
+            while (iterator.hasNext()) {
+                if (to != null && i > to) { // Compare with unboxed 'to'
+                    break;
+                }
+                T element = iterator.next();
+                consumer.accept(i, element);
+                i++;
             }
-            T element = iterator.next();
-            consumer.accept(i, element);
-            i++;
+        } catch (ReturnValue e) {
+            return e.value();
         }
+        return null;
     }
 }
