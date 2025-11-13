@@ -45,7 +45,7 @@ Loop.on().from(0).to(10).loop(i -> {
 
 ## Array and Collection Loops
 
-Looping over arrays or collections is another common use case.
+One of the most powerful features of λLoop is its unified approach to iterating over both arrays and collections. You no longer have to worry about converting between arrays and lists or vice versa. λLoop provides a consistent and fluent API for both, giving you the best of both worlds!
 
 ### Traditional `for-each` loop
 
@@ -91,9 +91,16 @@ lambda:
 
 ```java
 import ste.lloop.Loop;
+import java.util.Arrays;
+import java.util.List;
 
 String[] array = {"a", "b", "c"};
 Loop.on(array).loop((index, element) -> {
+    System.out.println("index: " + index + ", element: " + element);
+});
+
+List<String> list = Arrays.asList("x", "y", "z");
+Loop.on(list).loop((index, element) -> {
     System.out.println("index: " + index + ", element: " + element);
 });
 ```
