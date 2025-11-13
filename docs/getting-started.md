@@ -234,7 +234,7 @@ numbers.stream()
     .ifPresent(firstEven::set);
 ```
 
-### The λLoop way
+### The λLoop brk()
 
 With λLoop, you can use the `brk()` method to stop the loop and return a value.
 
