@@ -18,6 +18,7 @@ public class StreamComparison {
         long streamTime = 0;
 
         System.out.println("starting");
+        System.out.println("Total time for " + SEARCH_ITERATIONS + " iterations:");
 
         final String[] randomNames = new String[SEARCH_ITERATIONS];
 
@@ -47,8 +48,6 @@ public class StreamComparison {
         }
 
         System.out.println("λLoop: " + lloopTime / 1000000 + " ms");
-        System.out.println("Total time for " + SEARCH_ITERATIONS + " iterations:");
-
     }
 
     private static List<String> generateNames() {
