@@ -67,14 +67,6 @@ public class NumericSeriesTest {
     }
 
     @Test
-    public void loop_throws_exception_if_to_is_not_set() {
-        thenThrownBy(() -> {
-            new NumericSeries().from(0).loop(i -> {});
-        }).isInstanceOf(IllegalStateException.class)
-          .hasMessage("'to' has not been set");
-    }
-
-    @Test
     public void loop_with_step() {
         // from(0).to(10).step(2) -> 0,2,..,10
         final StringBuilder sb1 = new StringBuilder();
@@ -85,16 +77,6 @@ public class NumericSeriesTest {
         final StringBuilder sb2 = new StringBuilder();
         new NumericSeries().from(10).to(0).step(2).loop(sb2::append);
         then(sb2.toString()).isEqualTo("1086420");
-
-        // from(0).to(10).step(-2) -> 10,8,..,0
-        final StringBuilder sb3 = new StringBuilder();
-        new NumericSeries().from(0).to(10).step(-2).loop(sb3::append);
-        then(sb3.toString()).isEqualTo("1086420");
-
-        // from(10).to(0).step(-2) -> 0,2,..,10
-        final StringBuilder sb4 = new StringBuilder();
-        new NumericSeries().from(10).to(0).step(-2).loop(sb4::append);
-        then(sb4.toString()).isEqualTo("0246810");
 
         // step is zero, no loop
         final StringBuilder sb5 = new StringBuilder();
@@ -111,5 +93,45 @@ public class NumericSeriesTest {
             }
         });
         then(result).isEqualTo(expectedValue);
+    }
+
+    @Test
+    public void infinite_loop_is_broken_by_brk() {
+        Integer result = new NumericSeries().from(0).<Integer>loop(i -> {
+            if (i == 100) {
+                Loop.brk(i);
+            }
+        });
+        then(result).isEqualTo(100);
+    }
+
+    @Test
+    public void infinite_loop_can_go_backwards() {
+        Integer result = new NumericSeries().from(0).step(-1).<Integer>loop(i -> {
+            if (i == -100) {
+                Loop.brk(i);
+            }
+        });
+        then(result).isEqualTo(-100);
+    }
+
+    @Test
+    public void infinite_loop_with_zero_step_does_not_run() {
+        AtomicInteger counter = new AtomicInteger(0);
+        new NumericSeries().from(0).step(0).loop(i -> {
+            counter.incrementAndGet();
+        });
+        then(counter.get()).isEqualTo(0);
+    }
+
+    @Test
+    public void negative_step_with_to_throws_illegal_argument_exception() {
+        thenThrownBy(() -> new NumericSeries().from(0).to(10).step(-1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("a negative step is not allowed when to is set");
+
+        thenThrownBy(() -> new NumericSeries().from(0).step(-1).to(10))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("a negative step is not allowed when to is set");
     }
 }

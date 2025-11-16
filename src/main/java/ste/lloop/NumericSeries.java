@@ -60,65 +60,83 @@ public class NumericSeries {
      *
      * @param to the ending value
      * @return this {@link NumericSeries} instance
+     * @throws IllegalArgumentException if a negative step is set
      */
     public NumericSeries to(int to) {
+        if (step < 0) {
+            throw new IllegalArgumentException("a negative step is not allowed when to is set");
+        }
         this.to = to;
         return this;
     }
 
     /**
-     * Sets the step of the loop. The sign of the step determines the direction of the loop.
+     * Sets the step of the loop.
      * <p>
-     * If the step is positive, the loop will go from {@code from} to {@code to}.
-     * If the step is negative, the loop will go from {@code to} to {@code from}.
+     * A negative step is allowed only if {@code to} is not set, in which case the loop will go
+     * backwards.
      * <p>
-     * The absolute value of the step is used as the increment.
-     * If the step is zero, the loop will not execute.
+     * The absolute value of the step is used as the increment. If the step is zero, the loop will
+     * not execute.
      *
      * @param step the step value
      * @return this {@link NumericSeries} instance
+     * @throws IllegalArgumentException if a negative step is set when {@code to} is also set
      */
     public NumericSeries step(int step) {
+        if (this.to != null && step < 0) {
+            throw new IllegalArgumentException("a negative step is not allowed when to is set");
+        }
         this.step = step;
         return this;
     }
 
     /**
      * Executes the given consumer for each value in the loop.
-     * If {@code from} and {@code to} are equal, the loop will not execute.
+     * <p>
+     * If {@code to} is set (finite loop) and {@code from} and {@code to} are equal, the loop will
+     * not execute.
+     * <p>
+     * If {@code to} is not set (infinite loop), the loop will continue indefinitely until
+     * {@link Loop#brk(Object)} is called.
      *
+     * @param <R> the type of the return value
      * @param consumer the consumer to execute for each value
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
      */
     public <R> R loop(Consumer<Integer> consumer) {
-        if (to == null) {
-            throw new IllegalStateException("'to' has not been set");
-        }
-
-        if (from == to) {
-            return null;
-        }
-
         if (step == 0) {
             return null;
         }
 
-        int start = from;
-        int end = to;
-
-        if (step < 0) {
-            start = to;
-            end = from;
-        }
-
-        final boolean isForward = end >= start;
-        final int increment = isForward ? Math.abs(step) : -Math.abs(step);
-
-        int i = start;
-
         try {
-            while ((isForward && i <= end) || (!isForward && i >= end)) {
-                consumer.accept(i);
-                i += increment;
+            if (to != null) { // Finite loop
+                if (from == to) {
+                    return null;
+                }
+
+                // The new rule: if to is not null, step must be positive.
+                // So, the effective step is always Math.abs(step).
+                // The direction is determined by from and to.
+                final boolean isForward = from <= to;
+                final int actualStep = Math.abs(step);
+                final int increment = isForward ? actualStep : -actualStep;
+
+                int i = from;
+                while ((isForward && i <= to) || (!isForward && i >= to)) {
+                    consumer.accept(i);
+                    i += increment;
+                }
+            } else { // Infinite loop (to is null)
+                // In this case, step can be positive or negative.
+                final int increment = step; // Use the actual step value
+
+                int i = from;
+                while (true) { // Loop indefinitely until Loop.brk() is called
+                    consumer.accept(i);
+                    i += increment;
+                }
             }
         } catch (ReturnValue e) {
             return e.value();

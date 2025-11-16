@@ -23,14 +23,14 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
-public class IterableSequenceTest {
+class ForwardOnlySequenceTest {
     @Test
     public void on_loops_through_the_elements_of_an_iterable() {
         final List<String> list = Arrays.asList("a", "b", "c");
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new IterableSequence<>(list).loop((index, element) -> {
+        new ForwardOnlySequence<>(list).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -40,11 +40,19 @@ public class IterableSequenceTest {
     }
 
     @Test
-    public void to_throws_exception_if_less_than_from() {
+    public void from_throws_exception_if_less_than_zero() {
         thenThrownBy(() -> {
-            new IterableSequence<>(Arrays.asList("a", "b")).from(1).to(0);
+            new ForwardOnlySequence<>(Arrays.asList("a", "b")).from(-1);
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("to can not be less than zero or from");
+          .hasMessage("from can not be less than zero");
+    }
+
+    @Test
+    public void to_throws_exception_if_less_than_zero() {
+        thenThrownBy(() -> {
+            new ForwardOnlySequence<>(Arrays.asList("a", "b")).to(-1);
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("to can not be less than zero");
     }
 
     @Test
@@ -53,7 +61,7 @@ public class IterableSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new IterableSequence<>(list).from(2).loop((index, element) -> {
+        new ForwardOnlySequence<>(list).from(2).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -63,20 +71,12 @@ public class IterableSequenceTest {
     }
 
     @Test
-    public void to_throws_exception_if_less_than_zero() {
-        thenThrownBy(() -> {
-            new IterableSequence<>(Arrays.asList("a", "b")).to(-1);
-        }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("to can not be less than zero or from");
-    }
-
-    @Test
     public void on_can_loop_to_a_given_index() {
         final List<String> list = Arrays.asList("a", "b", "c", "d", "e");
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new IterableSequence<>(list).to(2).loop((index, element) -> {
+        new ForwardOnlySequence<>(list).to(2).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -88,11 +88,50 @@ public class IterableSequenceTest {
     @Test
     public void loop_returns_value_on_break() {
         final List<String> list = Arrays.asList("a", "b", "c", "d", "e");
-        String result = new IterableSequence<>(list).<String>loop((index, element) -> {
+        String result = new ForwardOnlySequence<>(list).<String>loop((index, element) -> {
             if (index == 2) {
                 Loop.brk(element);
             }
         });
         then(result).isEqualTo("c");
+    }
+
+    @Test
+    public void to_throws_exception_if_from_is_greater() {
+        thenThrownBy(() -> {
+            new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).from(3).to(1);
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("from can not be greater than to in a forward-only sequence");
+    }
+
+    @Test
+    public void from_throws_exception_if_to_is_smaller() {
+        thenThrownBy(() -> {
+            new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).to(1).from(3);
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("from can not be greater than to in a forward-only sequence");
+    }
+
+    @Test
+    public void step_throws_exception_if_negative() {
+        thenThrownBy(() -> {
+            new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).step(-1);
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("step can not be negative for forward-only collections");
+    }
+
+    @Test
+    public void can_loop_with_a_given_step() {
+        final List<String> list = Arrays.asList("a", "b", "c", "d", "e", "f");
+        final AtomicInteger counter = new AtomicInteger(0);
+        final StringBuilder sb = new StringBuilder();
+
+        new ForwardOnlySequence<>(list).step(2).loop((index, element) -> {
+            counter.incrementAndGet();
+            sb.append(index).append(":").append(element).append(",");
+        });
+
+        then(counter.get()).isEqualTo(3);
+        then(sb.toString()).isEqualTo("0:a,2:c,4:e,");
     }
 }

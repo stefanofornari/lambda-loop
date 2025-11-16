@@ -42,6 +42,12 @@ public class ReturnValue extends RuntimeException {
         this(null);
     }
 
+    /**
+     * Returns the stored value, cast to a generic type {@code R}.
+     *
+     * @param <R> the type to cast the value to
+     * @return the stored value
+     */
     public <R> R value() {
         return (R)value;
     }

@@ -86,8 +86,8 @@ public class ArraySequenceTest {
     public void from_throws_exception_if_less_than_zero() {
         thenThrownBy(() -> {
             new ArraySequence<>(new String[]{}).from(-1);
-        }).isInstanceOf(IndexOutOfBoundsException.class)
-          .hasMessage("The 'from' value cannot be less than zero.");
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("from can not be less than zero");
     }
 
     @Test
@@ -146,16 +146,6 @@ public class ArraySequenceTest {
         final StringBuilder sb2 = new StringBuilder();
         new ArraySequence<>(array).from(10).to(0).step(2).loop((index, element) -> sb2.append(index).append(element));
         then(sb2.toString()).isEqualTo("10k8i6g4e2c0a");
-
-        // from(0).to(10).step(-2) -> 10,8,..,0
-        final StringBuilder sb3 = new StringBuilder();
-        new ArraySequence<>(array).from(0).to(10).step(-2).loop((index, element) -> sb3.append(index).append(element));
-        then(sb3.toString()).isEqualTo("10k8i6g4e2c0a");
-
-        // from(10).to(0).step(-2) -> 0,2,..,10
-        final StringBuilder sb4 = new StringBuilder();
-        new ArraySequence<>(array).from(10).to(0).step(-2).loop((index, element) -> sb4.append(index).append(element));
-        then(sb4.toString()).isEqualTo("0a2c4e6g8i10k");
 
         // step is zero, no loop
         final StringBuilder sb5 = new StringBuilder();

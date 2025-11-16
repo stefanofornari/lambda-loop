@@ -15,6 +15,8 @@
  */
 package ste.lloop;
 
+import java.util.List;
+
 /**
  * Provides a fluent API for creating loops.
  *
@@ -74,8 +76,26 @@ public final class Loop {
         return new ArraySequence<>(items);
     }
 
-    public static <T> IterableSequence<T> on(Iterable<T> iterable) {
-        return new IterableSequence<>(iterable);
+    /**
+     * Creates a new loop over the given list.
+     *
+     * @param <T> the type of the items in the list
+     * @param list the list to loop over
+     * @return a new {@link ListSequence} instance
+     */
+    public static <T> ListSequence<T> on(List<T> list) {
+        return new ListSequence<>(list);
+    }
+
+    /**
+     * Creates a new loop over the given iterable.
+     *
+     * @param <T> the type of the items in the iterable
+     * @param iterable the iterable to loop over
+     * @return a new {@link ForwardOnlySequence} instance
+     */
+    public static <T> ForwardOnlySequence<T> on(Iterable<T> iterable) {
+        return new ForwardOnlySequence<>(iterable);
     }
 
     /**

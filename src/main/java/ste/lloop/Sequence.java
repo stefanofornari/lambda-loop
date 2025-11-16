@@ -31,51 +31,12 @@ import java.util.function.Consumer;
  *
  * @param <T> the type of the elements in the array
  */
-public abstract class Sequence<T> {
-    protected final NumericSeries indexes;
-
-    Sequence() {
-        this.indexes = new NumericSeries();
-    }
+public abstract class Sequence<T> extends CollectionSequence<Sequence<T>> {
 
     /**
-     * Sets the step of the loop. The sign of the step determines the direction of the loop.
-     * <p>
-     * If the step is positive, the loop will go from {@code from} to {@code to}.
-     * If the step is negative, the loop will go from {@code to} to {@code from}.
-     * <p>
-     * The absolute value of the step is used as the increment.
-     * If the step is zero, the loop will not execute.
-     *
-     * @param step the step value
-     * @return this {@link Sequence} instance
+     * Constructs a new {@link Sequence} instance.
      */
-    public Sequence<T> step(final int step) {
-        indexes.step(step); return this;
-    }
-
-    /**
-     * Sets the starting index of the loop (inclusive).
-     *
-     * @param from the starting index
-     * @return this {@link Sequence} instance
-     * @throws IndexOutOfBoundsException if the 'from' value is less than zero
-     */
-    public Sequence<T> from(final int from) {
-        if (from < 0) {
-            throw new IndexOutOfBoundsException("The 'from' value cannot be less than zero.");
-        }
-        indexes.from(from); return this;
-    }
-
-    /**
-     * Sets the ending index of the loop (inclusive).
-     *
-     * @param to the ending index
-     * @return this {@link Sequence} instance
-     */
-    public Sequence<T> to(final int to) {
-        indexes.to(to); return this;
+    protected Sequence() {
     }
 
     /**
@@ -83,7 +44,10 @@ public abstract class Sequence<T> {
      *
      * <p>If the array provided to the constructor was {@code null}, this method will do nothing.
      *
+     * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
      */
     public abstract <R> R loop(final BiConsumer<Integer, T> consumer);
 
@@ -92,7 +56,10 @@ public abstract class Sequence<T> {
      *
      * <p>If the array provided to the constructor was {@code null}, this method will do nothing.
      *
+     * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
      */
     public <R> R loop(final Consumer<T> consumer) {
         return loop((index, element) -> consumer.accept(element));

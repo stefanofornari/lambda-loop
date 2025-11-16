@@ -43,9 +43,39 @@ Loop.on().from(0).to(10).loop(i -> {
 });
 ```
 
-## Array and Collection Loops
+## Array and Iterable Loops
 
-One of the most powerful features of λLoop is its unified approach to iterating over both arrays and collections. You no longer have to worry about converting between arrays and lists or vice versa. λLoop provides a consistent and fluent API for both, giving you the best of both worlds!
+One of the most powerful features of λLoop is its unified approach to iterating
+over arrays and any `java.lang.Iterable` (which includes `List`, `Set`, and other
+collections). You no longer have to worry about converting between different itera
+ble types. λLoop provides a consistent and fluent API for all, giving you the best
+of all worlds!
+
+### Looping over any Iterable
+
+λLoop's `on()` method is overloaded to accept any `java.lang.Iterable`. This
+means you can seamlessly loop over `List`s, `Set`s, or any custom class that
+implements the `Iterable` interface.
+
+```java
+import ste.lloop.Loop;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
+// Looping over a List
+List<String> fruits = Arrays.asList("apple", "banana", "cherry");
+Loop.on(fruits).loop((index, fruit) -> {
+    System.out.println("List - index: " + index + ", fruit: " + fruit);
+});
+
+// Looping over a Set
+Set<Integer> numbers = new HashSet<>(Arrays.asList(10, 20, 30));
+Loop.on(numbers).loop((index, number) -> {
+    System.out.println("Set - index: " + index + ", number: " + number);
+});
+```
 
 ### Traditional `for-each` loop
 
@@ -113,6 +143,16 @@ Loop.on(list).loop((index, element) -> {
 
 You can specify a `step` to control the increment of the loop.
 
+It’s important to understand that when `to` is set, the loop always progresses
+from `from` to `to`. The `step` value controls the size of each increment or
+decrement, but not the direction. The direction is implicitly determined by the
+relative values of `from` and `to`.
+
+But what if `to` is not provided? In an endless loop (i.e., when `to` is not
+set), the sign of `step` determines the direction: a negative `step` moves the
+sequence backward (decrementing), while a positive `step` moves it forward
+(incrementing).
+
 ```java
 // Traditional for loop with a step
 for (int i = 0; i <= 10; i += 2) {
@@ -127,9 +167,9 @@ Loop.on().from(0).to(10).step(2).loop(i -> {
 
 ### Looping Backwards
 
-Looping backwards is straightforward with λLoop. A negative step will
-automatically invert the loop direction. This can also be achieved by setting
-the `to` value to be less than the `from` value.
+Looping backwards is straightforward with λLoop.
+
+You can achieve a backward loop by setting the `to` value to be less than the `from` value.
 
 ```java
 // Traditional for loop, looping backwards
@@ -137,16 +177,23 @@ for (int i = 10; i >= 0; i--) {
     // i will be 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 }
 
-// λLoop equivalent with negative step
-Loop.on().from(0).to(10).step(-1).loop(i -> {
-    // i will be 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
-});
-
 // Looping backwards with to < from
 Loop.on().from(10).to(0).loop(i -> {
     // i will be 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 });
 ```
+
+For infinite loops, you can use a negative step to loop backwards indefinitely until `Loop.brk()` is called.
+
+```java
+// Infinite loop going backwards from 0 with a step of -1
+Loop.on().from(0).step(-1).loop(i -> {
+    // i will be 0, -1, -2, ...
+    // This loop will run indefinitely until Loop.brk() is called.
+});
+```
+
+Note that a negative step is only allowed when the `to` value is not set. If you attempt to use a negative step when `to` is defined, an `IllegalArgumentException` will be thrown.
 
 ### Looping over a sub-section of an array
 
@@ -243,7 +290,7 @@ numbers.stream()
 
 ### The λLoop brk()
 
-With λLoop, you can use the `brk()` method to stop the loop and return a value.
+With λLoop, you can use the `brk()` method to stop the loop and return a value. An alias method, `_break_()`, is also available for the same purpose.
 
 Here's how you can find the first even number in a range:
 

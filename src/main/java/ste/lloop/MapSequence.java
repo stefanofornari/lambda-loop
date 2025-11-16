@@ -1,0 +1,61 @@
+/*
+ * Copyright 2025 the original author or authors from the λLoop project (https://lambda-loop.github.io/)..
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package ste.lloop;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+
+class MapSequence<K, V> extends CollectionSequence<MapSequence<K, V>> {
+    private final Map<K, V> map;
+
+    MapSequence(Map<K, V> map) {
+        super();
+        this.map = map;
+    }
+
+    public <R> R loop(MapLoopConsumer<K, V> consumer) {
+        if (map == null || map.isEmpty()) {
+            return null;
+        }
+
+        final List<Map.Entry<K, V>> entries = new ArrayList<>(map.entrySet());
+        final int size = entries.size();
+
+        // If 'to' is not set, default it to the last index.
+        if (indexes.to == null) {
+            indexes.to(size - 1);
+        }
+
+        // Eagerly cap the 'to' value to the last valid index.
+        if (indexes.to >= size) {
+            indexes.to(size - 1);
+        }
+
+        // Now we can delegate to NumericSeries, confident that it will not
+        // generate an index that is out of the list's upper bounds.
+        return indexes.loop(index -> {
+            Map.Entry<K, V> entry = entries.get(index);
+            consumer.accept(index, entry.getKey(), entry.getValue());
+        });
+    }
+
+    public <R> R loop(BiConsumer<K, V> consumer) {
+        return loop((index, key, value) -> consumer.accept(key, value));
+    }
+}
+

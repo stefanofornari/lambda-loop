@@ -23,13 +23,15 @@ public class Example {
         });
 
         // loops from 0 to 10, with a step of 2
+        // (a negative step is only allowed for infinite loops)
         Loop.on().from(0).to(10).step(2).loop(i -> {
             // i will be 0, 2, 4, 6, 8, 10
         });
 
-        // loops from 0 to 10, with a negative step of -2 (inverts direction)
-        Loop.on().from(0).to(10).step(-2).loop(i -> {
-            // i will be 10, 8, 6, 4, 2, 0
+        // infinite loop going backwards from 0 with a step of -1
+        Loop.on().from(0).step(-1).loop(i -> {
+            // i will be 0, -1, -2, ...
+            // This loop will run indefinitely until Loop.brk() is called.
         });
     }
 }
@@ -39,6 +41,8 @@ public class Example {
 
 ```java
 import ste.lloop.Loop;
+import java.util.Arrays;
+import java.util.List;
 
 public class Example {
     public static void main(String[] args) {
@@ -55,6 +59,12 @@ public class Example {
         String[] array = {"one", "two", "three"};
         // loops over items using an array
         Loop.on(array).from(0).to(2).loop((index, element) -> {
+            System.out.println("index: " + index + ", element: " + element);
+        });
+
+        List<String> list = Arrays.asList("alpha", "beta", "gamma");
+        // loops over items using a List (any Iterable)
+        Loop.on(list).loop((index, element) -> {
             System.out.println("index: " + index + ", element: " + element);
         });
 

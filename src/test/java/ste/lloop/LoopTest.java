@@ -27,8 +27,13 @@ public class LoopTest {
     }
 
     @Test
-    public void on_with_iterable_returns_IterableSequence() {
-        then(Loop.on(java.util.Arrays.asList("one", "two", "three"))).isInstanceOf(IterableSequence.class);
+    public void on_with_iterable_returns_ForwardOnlySequence() {
+        then(Loop.on(new java.util.HashSet<>(java.util.Arrays.asList("one", "two", "three")))).isInstanceOf(ForwardOnlySequence.class);
+    }
+
+    @Test
+    public void on_with_list_returns_ListSequence() {
+        then(Loop.on(java.util.Arrays.asList("one", "two", "three"))).isInstanceOf(ListSequence.class);
     }
 
     @Test
