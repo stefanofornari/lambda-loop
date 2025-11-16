@@ -77,11 +77,6 @@ public class Example {
         Loop.on("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k").from(0).to(10).step(2).loop((index, element) -> {
             System.out.println("index: " + index + ", element: " + element);
         });
-
-        // loops over items with a negative step of -2 (inverts direction)
-        Loop.on("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k").from(0).to(10).step(-2).loop((index, element) -> {
-            System.out.println("index: " + index + ", element: " + element);
-        });
     }
 }
 

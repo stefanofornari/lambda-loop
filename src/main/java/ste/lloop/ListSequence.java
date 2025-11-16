@@ -18,14 +18,23 @@ package ste.lloop;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-class ListSequence<T> extends CollectionSequence<ListSequence<T>> {
+/**
+ * A sequence that loops over a list.
+ * @param <T> the type of the elements in the list
+ */
+public class ListSequence<T> extends IndexedSequence<T> {
     private final List<T> list;
 
-    ListSequence(List<T> list) {
+    /**
+     * Creates a new sequence for the given list.
+     * @param list the list to loop over
+     */
+    public ListSequence(List<T> list) {
         super();
         this.list = list;
     }
 
+    @Override
     public <R> R loop(BiConsumer<Integer, T> consumer) {
         if (list == null || list.isEmpty()) {
             return null;
@@ -42,8 +51,7 @@ class ListSequence<T> extends CollectionSequence<ListSequence<T>> {
         }
 
         return indexes.loop(index -> {
-            T element = list.get(index);
-            consumer.accept(index, element);
+            consumer.accept(index, list.get(index));
         });
     }
 }

@@ -20,14 +20,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-class MapSequence<K, V> extends CollectionSequence<MapSequence<K, V>> {
+/**
+ * A sequence that loops over a map.
+ * @param <K> the type of the keys in the map
+ * @param <V> the type of the values in the map
+ */
+public class MapSequence<K, V> extends CollectionSequence<MapSequence<K, V>> {
     private final Map<K, V> map;
 
-    MapSequence(Map<K, V> map) {
+    /**
+     * Creates a new sequence for the given map.
+     * @param map the map to loop over
+     */
+    public MapSequence(Map<K, V> map) {
         super();
         this.map = map;
     }
 
+    /**
+     * Executes the given consumer for each element in the loop.
+     *
+     * <p>If the map provided to the constructor was {@code null}, this method will do nothing.
+     *
+     * @param <R> the type of the return value
+     * @param consumer the consumer to execute for each element
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
+     */
     public <R> R loop(MapLoopConsumer<K, V> consumer) {
         if (map == null || map.isEmpty()) {
             return null;
@@ -54,6 +73,16 @@ class MapSequence<K, V> extends CollectionSequence<MapSequence<K, V>> {
         });
     }
 
+    /**
+     * Executes the given consumer for each element in the loop.
+     *
+     * <p>If the map provided to the constructor was {@code null}, this method will do nothing.
+     *
+     * @param <R> the type of the return value
+     * @param consumer the consumer to execute for each element
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
+     */
     public <R> R loop(BiConsumer<K, V> consumer) {
         return loop((index, key, value) -> consumer.accept(key, value));
     }

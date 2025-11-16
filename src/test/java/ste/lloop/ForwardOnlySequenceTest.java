@@ -40,22 +40,6 @@ class ForwardOnlySequenceTest {
     }
 
     @Test
-    public void from_throws_exception_if_less_than_zero() {
-        thenThrownBy(() -> {
-            new ForwardOnlySequence<>(Arrays.asList("a", "b")).from(-1);
-        }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("from can not be less than zero");
-    }
-
-    @Test
-    public void to_throws_exception_if_less_than_zero() {
-        thenThrownBy(() -> {
-            new ForwardOnlySequence<>(Arrays.asList("a", "b")).to(-1);
-        }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("to can not be less than zero");
-    }
-
-    @Test
     public void on_can_loop_from_a_given_index() {
         final List<String> list = Arrays.asList("a", "b", "c", "d", "e");
         final AtomicInteger counter = new AtomicInteger(0);
@@ -97,19 +81,29 @@ class ForwardOnlySequenceTest {
     }
 
     @Test
-    public void to_throws_exception_if_from_is_greater() {
+    public void to_throws_exception_if_negative_or_smaller_then_from() {
+        thenThrownBy(() -> {
+            new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).from(3).to(-1);
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("to can not be negative or smaller than from for forward-only sequences");
+
         thenThrownBy(() -> {
             new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).from(3).to(1);
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("from can not be greater than to in a forward-only sequence");
+          .hasMessage("to can not be negative or smaller than from for forward-only sequences");
     }
 
     @Test
-    public void from_throws_exception_if_to_is_smaller() {
+    public void from_throws_exception_if_negative_or_bigger_than_to() {
         thenThrownBy(() -> {
             new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).to(1).from(3);
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("from can not be greater than to in a forward-only sequence");
+          .hasMessage("from can not be negative or greater than to for forward-only sequences");
+
+        thenThrownBy(() -> {
+            new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).to(1).from(-1);
+        }).isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("from can not be negative or greater than to for forward-only sequences");
     }
 
     @Test
@@ -117,7 +111,7 @@ class ForwardOnlySequenceTest {
         thenThrownBy(() -> {
             new ForwardOnlySequence<>(Arrays.asList("a", "b", "c", "d")).step(-1);
         }).isInstanceOf(IllegalArgumentException.class)
-          .hasMessage("step can not be negative for forward-only collections");
+          .hasMessage("step can never be negative for forward-only sequences");
     }
 
     @Test

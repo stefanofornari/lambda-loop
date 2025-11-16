@@ -20,39 +20,56 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import static ste.lloop.Loop._break_;
 
-class ForwardOnlySequence<T> extends CollectionSequence<ForwardOnlySequence<T>> {
+/**
+ * A sequence that loops over an iterable and can only go forward.
+ * @param <T> the type of the elements in the iterable
+ */
+public class ForwardOnlySequence<T> extends CollectionSequence<ForwardOnlySequence<T>> {
     private final Iterable<T> iterable;
 
-    ForwardOnlySequence(Iterable<T> iterable) {
+    /**
+     * Creates a new sequence for the given iterable.
+     * @param iterable the iterable to loop over
+     */
+    public ForwardOnlySequence(Iterable<T> iterable) {
         super();
         this.iterable = iterable;
     }
 
     @Override
-    public ForwardOnlySequence<T> step(int step) {
-        if (step < 0) {
-            throw new IllegalArgumentException("step can not be negative for forward-only collections");
+    public ForwardOnlySequence<T> to(final int to) {
+        if (to < indexes.from) {
+            throw new IllegalArgumentException("to can not be negative or smaller than from for forward-only sequences");
         }
-        return super.step(step);
+        return super.to(to);
     }
 
     @Override
-    public ForwardOnlySequence<T> from(int from) {
-        if (indexes.to != null && from > indexes.to) {
-            throw new IllegalArgumentException("from can not be greater than to in a forward-only sequence");
+    public ForwardOnlySequence<T> from(final int from) {
+        if ((from < 0) || ((indexes.to != null) && (from > indexes.to))) {
+            throw new IllegalArgumentException("from can not be negative or greater than to for forward-only sequences");
         }
         return super.from(from);
     }
 
     @Override
-    public ForwardOnlySequence<T> to(int to) {
-        super.to(to); // This will throw if to < 0
-        if (to < indexes.from) {
-            throw new IllegalArgumentException("from can not be greater than to in a forward-only sequence");
+    public ForwardOnlySequence<T> step(final int step) {
+        if (step < 0) {
+            throw new IllegalArgumentException("step can never be negative for forward-only sequences");
         }
-        return this;
+        return super.step(step);
     }
 
+    /**
+     * Executes the given consumer for each element in the loop.
+     *
+     * <p>If the iterable provided to the constructor was {@code null}, this method will do nothing.
+     *
+     * @param <R> the type of the return value
+     * @param consumer the consumer to execute for each element
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
+     */
     public <R> R loop(BiConsumer<Integer, T> consumer) {
         if (iterable == null) {
             return null;

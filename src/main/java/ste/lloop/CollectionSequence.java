@@ -26,7 +26,10 @@ public abstract class CollectionSequence<S extends CollectionSequence<S>> {
      */
     protected final NumericSequence indexes;
 
-    CollectionSequence() {
+    /**
+     * Creates a new collection sequence.
+     */
+    public CollectionSequence() {
         this.indexes = new NumericSequence();
     }
 

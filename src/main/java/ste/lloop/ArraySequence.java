@@ -17,10 +17,18 @@ package ste.lloop;
 
 import java.util.function.BiConsumer;
 
-class ArraySequence<T> extends Sequence<T> {
+/**
+ * A sequence that loops over an array.
+ * @param <T> the type of the elements in the array
+ */
+public class ArraySequence<T> extends IndexedSequence<T> {
     private final T[] array;
 
-    ArraySequence(T[] array) {
+    /**
+     * Creates a new sequence for the given array.
+     * @param array the array to loop over
+     */
+    public ArraySequence(T[] array) {
         super();
         this.array = array;
     }

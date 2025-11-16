@@ -31,12 +31,12 @@ import java.util.function.Consumer;
  *
  * @param <T> the type of the elements in the array
  */
-public abstract class Sequence<T> extends CollectionSequence<Sequence<T>> {
+public abstract class IndexedSequence<T> extends CollectionSequence<IndexedSequence<T>> {
 
     /**
-     * Constructs a new {@link Sequence} instance.
+     * Constructs a new {@link IndexedSequence} instance.
      */
-    protected Sequence() {
+    protected IndexedSequence() {
     }
 
     /**
