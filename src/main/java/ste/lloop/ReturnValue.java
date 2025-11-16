@@ -52,6 +52,17 @@ public class ReturnValue extends RuntimeException {
         return (R)value;
     }
 
+    /**
+     * Overridden to avoid to create a stack trace, which is an expensive and
+     * resource intensive operation.
+     *
+     * @return this
+     */
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(value);
