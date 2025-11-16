@@ -1,3 +1,9 @@
+---
+layout: default
+title: Getting Started
+nav_order: 2
+---
+
 # Getting Started
 
 λLoop provides a fluent and expressive way to create loops in Java, moving away
