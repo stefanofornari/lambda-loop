@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * <p>This class is not meant to be instantiated directly. Use {@link Loop#on()} to start building a
  * numeric loop.
  */
-public class NumericSeries {
+public class NumericSequence {
     /**
      * The starting value of the loop (inclusive).
      */
@@ -40,17 +40,17 @@ public class NumericSeries {
     protected int step = 1;
 
     /**
-     * Constructs a new {@link NumericSeries} instance.
+     * Constructs a new {@link NumericSequence} instance.
      */
-    public NumericSeries() {}
+    public NumericSequence() {}
 
     /**
      * Sets the starting value of the loop (inclusive).
      *
      * @param from the starting value
-     * @return this {@link NumericSeries} instance
+     * @return this {@link NumericSequence} instance
      */
-    public NumericSeries from(int from) {
+    public NumericSequence from(int from) {
         this.from = from;
         return this;
     }
@@ -59,10 +59,10 @@ public class NumericSeries {
      * Sets the ending value of the loop (inclusive).
      *
      * @param to the ending value
-     * @return this {@link NumericSeries} instance
+     * @return this {@link NumericSequence} instance
      * @throws IllegalArgumentException if a negative step is set
      */
-    public NumericSeries to(int to) {
+    public NumericSequence to(int to) {
         if (step < 0) {
             throw new IllegalArgumentException("a negative step is not allowed when to is set");
         }
@@ -80,10 +80,10 @@ public class NumericSeries {
      * not execute.
      *
      * @param step the step value
-     * @return this {@link NumericSeries} instance
+     * @return this {@link NumericSequence} instance
      * @throws IllegalArgumentException if a negative step is set when {@code to} is also set
      */
-    public NumericSeries step(int step) {
+    public NumericSequence step(int step) {
         if (this.to != null && step < 0) {
             throw new IllegalArgumentException("a negative step is not allowed when to is set");
         }

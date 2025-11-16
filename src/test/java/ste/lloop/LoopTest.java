@@ -22,8 +22,8 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 public class LoopTest {
 
     @Test
-    public void on_returns_NumericSeries() {
-        then(Loop.on()).isInstanceOf(NumericSeries.class);
+    public void on_returns_NumericSequence() {
+        then(Loop.on()).isInstanceOf(NumericSequence.class);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class LoopTest {
 
     @Test
     public void on_with_array_returns_ArraySequence() {
-        then(Loop.on()).isInstanceOf(NumericSeries.class);
+        then(Loop.on()).isInstanceOf(NumericSequence.class);
         then(Loop.on("one", "two", "three")).isInstanceOf(ArraySequence.class);
         then(Loop.on(new String[] { "one", "two", "three" })).isInstanceOf(ArraySequence.class);
     }

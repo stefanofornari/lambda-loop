@@ -46,7 +46,7 @@ class MapSequence<K, V> extends CollectionSequence<MapSequence<K, V>> {
             indexes.to(size - 1);
         }
 
-        // Now we can delegate to NumericSeries, confident that it will not
+        // Now we can delegate to NumericSequence, confident that it will not
         // generate an index that is out of the list's upper bounds.
         return indexes.loop(index -> {
             Map.Entry<K, V> entry = entries.get(index);

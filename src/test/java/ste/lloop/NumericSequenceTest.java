@@ -20,28 +20,28 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class NumericSeriesTest {
+public class NumericSequenceTest {
 
     @Test
     public void from_returns_not_null() {
-        then(new NumericSeries().from(0)).isNotNull();
+        then(new NumericSequence().from(0)).isNotNull();
     }
 
     @Test
     public void to_returns_not_null() {
-        then(new NumericSeries().from(0).to(10)).isNotNull();
+        then(new NumericSequence().from(0).to(10)).isNotNull();
     }
 
     @Test
     public void loop_can_be_called() {
-        new NumericSeries().from(0).to(10).loop(i -> {});
+        new NumericSequence().from(0).to(10).loop(i -> {});
     }
 
     @Test
     public void loop_executes_the_correct_number_of_times() {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
-        new NumericSeries().from(0).to(10).loop(i -> {
+        new NumericSequence().from(0).to(10).loop(i -> {
             counter.incrementAndGet();
             sb.append(i);
         });
@@ -50,7 +50,7 @@ public class NumericSeriesTest {
 
         // from == to, no loop
         final StringBuilder sb2 = new StringBuilder();
-        new NumericSeries().from(5).to(5).loop(sb2::append);
+        new NumericSequence().from(5).to(5).loop(sb2::append);
         then(sb2.toString()).isEmpty();
     }
 
@@ -58,7 +58,7 @@ public class NumericSeriesTest {
     public void loop_executes_backwards_when_from_is_greater_than_to() {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
-        new NumericSeries().from(10).to(0).loop(i -> {
+        new NumericSequence().from(10).to(0).loop(i -> {
             counter.incrementAndGet();
             sb.append(i);
         });
@@ -70,24 +70,24 @@ public class NumericSeriesTest {
     public void loop_with_step() {
         // from(0).to(10).step(2) -> 0,2,..,10
         final StringBuilder sb1 = new StringBuilder();
-        new NumericSeries().from(0).to(10).step(2).loop(sb1::append);
+        new NumericSequence().from(0).to(10).step(2).loop(sb1::append);
         then(sb1.toString()).isEqualTo("0246810");
 
         // from(10).to(0).step(2) -> 10,8,..,0
         final StringBuilder sb2 = new StringBuilder();
-        new NumericSeries().from(10).to(0).step(2).loop(sb2::append);
+        new NumericSequence().from(10).to(0).step(2).loop(sb2::append);
         then(sb2.toString()).isEqualTo("1086420");
 
         // step is zero, no loop
         final StringBuilder sb5 = new StringBuilder();
-        new NumericSeries().from(0).to(10).step(0).loop(sb5::append);
+        new NumericSequence().from(0).to(10).step(0).loop(sb5::append);
         then(sb5.toString()).isEmpty();
     }
 
     @Test
     public void loop_returns_value_on_break() {
         final String expectedValue = "test value";
-        String result = new NumericSeries().from(0).to(10).<String>loop(i -> {
+        String result = new NumericSequence().from(0).to(10).<String>loop(i -> {
             if (i == 5) {
                 Loop.brk(expectedValue);
             }
@@ -97,7 +97,7 @@ public class NumericSeriesTest {
 
     @Test
     public void infinite_loop_is_broken_by_brk() {
-        Integer result = new NumericSeries().from(0).<Integer>loop(i -> {
+        Integer result = new NumericSequence().from(0).<Integer>loop(i -> {
             if (i == 100) {
                 Loop.brk(i);
             }
@@ -107,7 +107,7 @@ public class NumericSeriesTest {
 
     @Test
     public void infinite_loop_can_go_backwards() {
-        Integer result = new NumericSeries().from(0).step(-1).<Integer>loop(i -> {
+        Integer result = new NumericSequence().from(0).step(-1).<Integer>loop(i -> {
             if (i == -100) {
                 Loop.brk(i);
             }
@@ -118,7 +118,7 @@ public class NumericSeriesTest {
     @Test
     public void infinite_loop_with_zero_step_does_not_run() {
         AtomicInteger counter = new AtomicInteger(0);
-        new NumericSeries().from(0).step(0).loop(i -> {
+        new NumericSequence().from(0).step(0).loop(i -> {
             counter.incrementAndGet();
         });
         then(counter.get()).isEqualTo(0);
@@ -126,11 +126,11 @@ public class NumericSeriesTest {
 
     @Test
     public void negative_step_with_to_throws_illegal_argument_exception() {
-        thenThrownBy(() -> new NumericSeries().from(0).to(10).step(-1))
+        thenThrownBy(() -> new NumericSequence().from(0).to(10).step(-1))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("a negative step is not allowed when to is set");
 
-        thenThrownBy(() -> new NumericSeries().from(0).step(-1).to(10))
+        thenThrownBy(() -> new NumericSequence().from(0).step(-1).to(10))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("a negative step is not allowed when to is set");
     }

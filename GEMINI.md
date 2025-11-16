@@ -4,7 +4,7 @@ Core Features:
 
 *   **Fluent API:** The library offers a chained, intuitive interface for building loops, starting with the `Loop` class.
 *   **Two Loop Types:**
-    *   **Numeric Loops (`NumericSeries`):**
+    *   **Numeric Loops (`NumericSequence`):**
         *   Iterate over a range of integers with optional step.
         *   Define a start (`from`) and end (`to`) value (inclusive).
         *   The `step` value determines the increment and can invert the loop direction:
@@ -25,7 +25,8 @@ Functional Requirements & Constraints:
     *   `ArraySeries` `from` index cannot be negative.
     *   `ArraySeries` `to` index is automatically capped at the array's upper bound.
 *   **Default Behavior:** If no `to` index is specified for an `ArraySeries`, the loop runs to the end of the array.
-*   **Immutability:** The main `Loop` class is a non-instantiable utility class. The `NumericSeries` and `ArraySeries` classes are mutable builders for loop configuration.
+*   **Immutability:** The main `Loop` class is a non-instantiable utility class. The `NumericSequence` 
+and `ArraySeries` classes are mutable builders for loop configuration.
 
 Technical Requirements:
 

@@ -24,10 +24,10 @@ public abstract class CollectionSequence<S extends CollectionSequence<S>> {
     /**
      * The numeric series that controls the looping.
      */
-    protected final NumericSeries indexes;
+    protected final NumericSequence indexes;
 
     CollectionSequence() {
-        this.indexes = new NumericSeries();
+        this.indexes = new NumericSequence();
     }
 
     /**

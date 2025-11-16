@@ -58,10 +58,10 @@ public final class Loop {
     /**
      * Creates a new numeric loop.
      *
-     * @return a new {@link NumericSeries} instance
+     * @return a new {@link NumericSequence} instance
      */
-    public static NumericSeries on() {
-        return new NumericSeries();
+    public static NumericSequence on() {
+        return new NumericSequence();
     }
 
     /**
