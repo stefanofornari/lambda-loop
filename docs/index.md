@@ -6,4 +6,6 @@ Welcome to the documentation for the λLoop library.
 
 ## Topics
 
+* [Introduction](introduction.md)
 * [Getting Started](getting-started.md)
+* [tutorial](tutorial.md)
