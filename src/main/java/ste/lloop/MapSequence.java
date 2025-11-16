@@ -25,7 +25,7 @@ import java.util.function.BiConsumer;
  * @param <K> the type of the keys in the map
  * @param <V> the type of the values in the map
  */
-public class MapSequence<K, V> extends CollectionSequence<MapSequence<K, V>> {
+public class MapSequence<K, V> extends AbstractSequence<MapSequence<K, V>> {
     private final Map<K, V> map;
 
     /**

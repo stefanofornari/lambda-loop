@@ -24,7 +24,7 @@ import static ste.lloop.Loop._break_;
  * A sequence that loops over an iterable and can only go forward.
  * @param <T> the type of the elements in the iterable
  */
-public class ForwardOnlySequence<T> extends CollectionSequence<ForwardOnlySequence<T>> {
+public class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnlySequence<T>> {
     private final Iterable<T> iterable;
 
     /**

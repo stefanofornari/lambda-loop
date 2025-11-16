@@ -31,7 +31,7 @@ import java.util.function.Consumer;
  *
  * @param <T> the type of the elements in the array
  */
-public abstract class IndexedSequence<T> extends CollectionSequence<IndexedSequence<T>> {
+public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequence<T>> {
 
     /**
      * Constructs a new {@link IndexedSequence} instance.

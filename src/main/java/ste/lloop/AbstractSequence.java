@@ -20,7 +20,7 @@ package ste.lloop;
  *
  * @param <S> the type of the sequence
  */
-public abstract class CollectionSequence<S extends CollectionSequence<S>> {
+public abstract class AbstractSequence<S extends AbstractSequence<S>> {
     /**
      * The numeric series that controls the looping.
      */
@@ -29,7 +29,7 @@ public abstract class CollectionSequence<S extends CollectionSequence<S>> {
     /**
      * Creates a new collection sequence.
      */
-    public CollectionSequence() {
+    public AbstractSequence() {
         this.indexes = new NumericSequence();
     }
 
