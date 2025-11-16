@@ -110,37 +110,32 @@ public class NumericSequence {
             return null;
         }
 
+        Integer actualTo = to, actualStep = step;
+
+        if (to == null) {
+            //
+            // endless loop
+            //
+            actualTo = (step > 0) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            actualStep = Math.abs(step);
+        }
+
+        if (from == actualTo) {
+            return null;
+        }
+
         try {
-            if (to != null) { // Finite loop
-                if (from == to) {
-                    return null;
-                }
+            final boolean forward = from < actualTo;
+            final int increment = (forward) ? actualStep : -actualStep;
 
-                // The new rule: if to is not null, step must be positive.
-                // So, the effective step is always Math.abs(step).
-                // The direction is determined by from and to.
-                final boolean isForward = from <= to;
-                final int actualStep = Math.abs(step);
-                final int increment = isForward ? actualStep : -actualStep;
-
-                int i = from;
-                while ((isForward && i <= to) || (!isForward && i >= to)) {
-                    consumer.accept(i);
-                    i += increment;
-                }
-            } else { // Infinite loop (to is null)
-                // In this case, step can be positive or negative.
-                final int increment = step; // Use the actual step value
-
-                int i = from;
-                while (true) { // Loop indefinitely until Loop.brk() is called
-                    consumer.accept(i);
-                    i += increment;
-                }
+            int i = from;
+            while ((forward && i <= actualTo) || (!forward && i >= actualTo)) {
+                consumer.accept(i); i += increment;
             }
         } catch (ReturnValue e) {
             return e.value();
         }
+
         return null;
     }
 }
