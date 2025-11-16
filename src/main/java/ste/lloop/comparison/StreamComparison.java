@@ -1,10 +1,8 @@
 package ste.lloop.comparison;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import ste.lloop.ListSequence;
 import ste.lloop.Loop;
 
 public class StreamComparison {
@@ -19,9 +17,6 @@ public class StreamComparison {
         long lloopTime = 0;
         long streamTime = 0;
 
-        ListSequence<String> l = Loop.on(names);
-
-        Thread.sleep(Duration.ofSeconds(5));
         System.out.println("starting");
 
         final String[] randomNames = new String[SEARCH_ITERATIONS];
@@ -43,7 +38,7 @@ public class StreamComparison {
             // lloop
             final String NAME = randomNames[i];
             long startLloop = System.nanoTime();
-            l.loop(name -> {
+            Loop.on(names).loop(name -> {
                 if (name.equals(NAME)) {
                     Loop._break_(NAME);
                 }
