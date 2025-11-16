@@ -1,0 +1,32 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.2.1]
+
+* Renamed CollectionSequence to IndexedSequence
+* Improved performance by suppressing stack trace creation in brk()
+* Refactored sequence type hierarchy and fixed forward and backward looping
+
+## [0.2.0] - 2025-11-16
+
+* Added introduction and tutorial to the index
+* Docs: updated documentation structure
+* Renamed NumericSeries to NumericSequence
+* Feat: added support to loop though Map entries
+* Docs: enhanced _Array and Collection Loops_ section in getting-started.md
+* Docs: udate GitHub Pages theme to Hacker
+* Feat: added brk() method and updated documentation for breaking out of loops
+* Deat: added support for oop though Iterable
+
+## [0.1.0] - 2025-11-03
+
+* Added deploy plugin and setting it up to deploy on Maven Central
+* Fixed scm in pom.xml
+* Renamed ArraySeries to Sequence and added support for loop(element -> {})
+* Added ReturnValue holder to make is easier to handle return values inside lambdas
+* Implemented step functionality for ArraySeries and updated the documentation
+* Added varargs support for ArraySeries creation and updated the documentation
+* Implemented step functionality for NumericSeries
+* Handle empty arrays in ArraySeries loop
+* Add README.md with link to documentation

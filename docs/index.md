@@ -9,3 +9,4 @@ Welcome to the documentation for the λLoop library.
 * [Introduction](introduction.md)
 * [Getting Started](getting-started.md)
 * [tutorial](tutorial.md)
+* [Changelog](../CHANGELOG.md)
