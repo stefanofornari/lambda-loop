@@ -47,11 +47,6 @@ public class NumericSequenceTest {
         });
         then(counter.get()).isEqualTo(11);
         then(sb.toString()).isEqualTo("012345678910");
-
-        // from == to, no loop
-        final StringBuilder sb2 = new StringBuilder();
-        new NumericSequence().from(5).to(5).loop(sb2::append);
-        then(sb2.toString()).isEmpty();
     }
 
     @Test

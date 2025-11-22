@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2]
+* Fixed [Issue #3 - No iteration with list/array of size=1](https://github.com/stefanofornari/lambda-loop/issues/3)
+
+
 ## [0.2.1]
 
 * Renamed CollectionSequence to IndexedSequence

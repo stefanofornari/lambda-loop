@@ -120,10 +120,6 @@ public class NumericSequence {
             actualStep = Math.abs(step);
         }
 
-        if (from == actualTo) {
-            return null;
-        }
-
         try {
             final boolean forward = from < actualTo;
             final int increment = (forward) ? actualStep : -actualStep;

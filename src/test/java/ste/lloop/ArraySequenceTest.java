@@ -24,10 +24,10 @@ public class ArraySequenceTest {
 
     @Test
     public void on_loops_through_the_elements_of_an_array() {
-        final String[] array = {"a", "b", "c"};
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
+        String[] array = {"a", "b", "c"};
         new ArraySequence<>(array).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
@@ -35,6 +35,16 @@ public class ArraySequenceTest {
 
         then(counter.get()).isEqualTo(3);
         then(sb.toString()).isEqualTo("0:a,1:b,2:c,");
+
+        array = new String[] {"a"};
+        counter.set(0); sb.delete(0, sb.length());
+        new ArraySequence<>(array).loop((element) -> {
+            counter.incrementAndGet();
+            sb.append(element);
+        });
+
+        then(counter.get()).isEqualTo(1);
+        then(sb.toString()).isEqualTo("a");
     }
 
     @Test
@@ -151,14 +161,6 @@ public class ArraySequenceTest {
         final StringBuilder sb5 = new StringBuilder();
         new ArraySequence<>(array).from(0).to(10).step(0).loop((index, element) -> sb5.append(index).append(element));
         then(sb5.toString()).isEmpty();
-    }
-
-    @Test
-    public void from_equals_to_does_not_loop() {
-        final String[] array = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
-        final StringBuilder sb = new StringBuilder();
-        new ArraySequence<>(array).from(5).to(5).loop((index, element) -> sb.append(index).append(element));
-        then(sb.toString()).isEmpty();
     }
 
     @Test

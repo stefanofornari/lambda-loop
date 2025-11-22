@@ -25,17 +25,24 @@ public class ListSequenceTest {
 
     @Test
     public void on_loops_through_the_elements_of_a_list() {
-        final List<String> list = List.of("a", "b", "c");
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new ListSequence<>(list).loop((index, element) -> {
+        new ListSequence<>(List.of("a", "b", "c")).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
 
         then(counter.get()).isEqualTo(3);
         then(sb.toString()).isEqualTo("0:a,1:b,2:c,");
+
+        counter.set(0); sb.delete(0, sb.length());
+        new ListSequence<>(List.of("a")).loop((element) -> {
+            counter.incrementAndGet();
+            sb.append(element).append(",");
+        });
+        then(counter.get()).isEqualTo(1);
+        then(sb.toString()).isEqualTo("a,");
     }
 
     @Test
@@ -152,14 +159,6 @@ public class ListSequenceTest {
         final StringBuilder sb5 = new StringBuilder();
         new ListSequence<>(list).from(0).to(10).step(0).loop((index, element) -> sb5.append(index).append(element));
         then(sb5.toString()).isEmpty();
-    }
-
-    @Test
-    public void from_equals_to_does_not_loop() {
-        final List<String> list = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
-        final StringBuilder sb = new StringBuilder();
-        new ListSequence<>(list).from(5).to(5).loop((index, element) -> sb.append(index).append(element));
-        then(sb.toString()).isEmpty();
     }
 
     @Test
