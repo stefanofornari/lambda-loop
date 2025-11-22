@@ -35,8 +35,8 @@ class MapSequenceTest {
         testMap.put("two", 2);
         testMap.put("three", 3);
 
-        StringBuilder result = new StringBuilder();
-        AtomicInteger count = new AtomicInteger(0);
+        final StringBuilder result = new StringBuilder();
+        final AtomicInteger count = new AtomicInteger(0);
 
         //
         // When
@@ -51,6 +51,29 @@ class MapSequenceTest {
         //
         then(result.toString()).isEqualTo("0:one=1;1:two=2;2:three=3;");
         then(count.get()).isEqualTo(3);
+
+
+        //
+        // Given
+        //
+        testMap = new LinkedHashMap<>();
+        testMap.put("one", 1);
+        count.set(0); result.delete(0, result.length());
+
+        //
+        // When
+        //
+        new MapSequence<>(testMap).loop((key, value) -> {
+            result.append(key).append("=").append(value);
+            count.incrementAndGet();
+        });
+
+        //
+        // Then
+        //
+        then(result.toString()).isEqualTo("one=1");
+        then(count.get()).isEqualTo(1);
+
     }
 
     @Test
