@@ -1,13 +1,18 @@
-<div style="display: flex; align-items: center;">
-  <img src="images/no-stream.png" alt="Avoiding Java Streams with λLoop" width="25%" style="margin-right: 20px;" />
-  <div>
+# λLoop Documentation
 
-Welcome to the documentation for the <strong>λLoop</strong> library.
-<p>
-λLoop provides a fluent and expressive way to create loops in Java.
-
-  </div>
-</div>
+<table style="border: none;">
+  <tr style="border: none;">
+    <td style="border: none; width: 100px">
+      <img src="https://stefanofornari.github.io/lambda-loop/images/no-stream.png" 
+           alt="Avoiding Java Streams with λLoop" 
+           style="margin-right: 10px; margin-bottom: 10px"/>
+    </td>
+    <td style="border: none;">
+      Welcome to the documentation for the <strong>λLoop</strong> library.
+      <p></p>λLoop provides a fluent and expressive way to create loops in Java.
+    </td>
+  </tr>
+</table>
 
 ## Topics
 
