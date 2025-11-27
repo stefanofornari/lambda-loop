@@ -9,8 +9,6 @@ Welcome to the documentation for the <strong>λLoop</strong> library.
   </div>
 </div>
 
-&nbsp;
-
 ## Topics
 
 * [Introduction](introduction.md)
