@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.0]
 * Feat: Added CharacterSequence support for looping over CharSequences (Strings, StringBuilders, etc.)
+  ([Issue #3 - Loop over a CharSequence](https://github.com/stefanofornari/lambda-loop/issues/4))
 * Docs: Added API Documentation (Javadoc) to the website
 * Docs: Highlighted "Unified Iteration" benefit in introduction and README
 
