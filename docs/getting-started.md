@@ -19,7 +19,7 @@ To get started, add the λLoop dependency to your project's `pom.xml`:
 <dependency>
   <groupId>com.github.stefanofornari</groupId>
   <artifactId>lambda-loop</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
