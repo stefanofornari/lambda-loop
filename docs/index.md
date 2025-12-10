@@ -21,4 +21,5 @@
 * [Introduction](introduction.md)
 * [Getting Started](getting-started.md)
 * [Tutorial](tutorial.md)
+* [API Documentation](apidocs/index.html)
 * [Changelog](../CHANGELOG.md)

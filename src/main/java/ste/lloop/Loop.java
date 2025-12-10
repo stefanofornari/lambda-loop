@@ -99,7 +99,7 @@ public final class Loop {
      * Creates a new loop over the given CharSequence.
      *
      * @param sequence the CharSequence to loop over
-     * @return a new {@Link CharacterSequence}
+     * @return a new {@link CharacterSequence}
      */
     public static CharacterSequence on(CharSequence sequence) {
         return new CharacterSequence(sequence);
