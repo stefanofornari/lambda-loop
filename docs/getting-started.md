@@ -141,6 +141,38 @@ Loop.on(list).loop((index, element) -> {
 });
 ```
 
+## Looping over Strings (and CharSequences)
+
+λLoop provides dedicated support for looping over `java.lang.CharSequence`
+implementations, such as `String` and `StringBuilder`. This allows you to
+iterate through the characters of a string with the same fluent API used
+for arrays and collections.
+
+### Traditional `for` loop
+
+To iterate over the characters of a string and access their index, you would
+typically use a standard `for` loop:
+
+```java
+String text = "Hello";
+for (int i = 0; i < text.length(); i++) {
+    System.out.println("Character at index " + i + ": " + text.charAt(i));
+}
+```
+
+### λLoop equivalent
+
+With λLoop, you can achieve the same result more fluently:
+
+```java
+import ste.lloop.Loop;
+
+String text = "Hello";
+Loop.on(text).loop((index, character) -> {
+    System.out.println("Character at index " + index + ": " + character);
+});
+```
+
 ## Advanced Looping
 
 λLoop also supports more advanced looping scenarios.
