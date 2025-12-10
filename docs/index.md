@@ -22,4 +22,4 @@
 * [Getting Started](getting-started.md)
 * [Tutorial](tutorial.md)
 * [API Documentation](apidocs/index.html)
-* [Changelog](../CHANGELOG.md)
+* [Changelog](https://github.com/stefanofornari/lambda-loop/blob/main/CHANGELOG.md)
