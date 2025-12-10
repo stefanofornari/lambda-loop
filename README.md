@@ -2,6 +2,8 @@
 
 A fluent and expressive way to create loops in Java.
 
+It allows you to use the same consistent pattern to loop over all supported sequences (arrays, collections, strings, etc.), instead of different ways to iterate over them.
+
 ## Documentation
 
 The full documentation for λLoop can be found at [https://stefanofornari.github.io/lambda-loop/](https://stefanofornari.github.io/lambda-loop/).

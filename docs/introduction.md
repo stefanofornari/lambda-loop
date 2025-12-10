@@ -17,6 +17,7 @@ Traditional Java loops, while powerful, can sometimes lead to verbose code, espe
 ## Key Features
 
 *   **Fluent API:** Chain methods to build your loops intuitively.
+*   **Unified Iteration:** Use the same consistent pattern to loop over all supported sequences (arrays, collections, strings, etc.), instead of different ways to iterate over them.
 *   **Numeric Loops:** Iterate over ranges of integers with customizable steps.
 *   **Collection Loops:** Seamlessly loop over arrays, Lists, Sets, and other Iterables.
 *   **Map Loops:** Iterate over map entries, keys, or values with ease.
