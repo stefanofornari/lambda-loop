@@ -50,6 +50,8 @@ public final class Loop {
 
     private Loop() {}
 
+    // ---------------------------------------------------------------------- on
+
     /**
      * Creates a new numeric loop.
      *
@@ -92,6 +94,18 @@ public final class Loop {
     public static <T> ForwardOnlySequence<T> on(Iterable<T> iterable) {
         return new ForwardOnlySequence<>(iterable);
     }
+
+    /**
+     * Creates a new loop over the given CharSequence.
+     *
+     * @param sequence the CharSequence to loop over
+     * @return a new {@Link CharacterSequence}
+     */
+    public static CharacterSequence on(CharSequence sequence) {
+        return new CharacterSequence(sequence);
+    }
+
+    // -------------------------------------------------------------------------
 
     /**
      * Throws a {@link ReturnValue} exception with the given value.

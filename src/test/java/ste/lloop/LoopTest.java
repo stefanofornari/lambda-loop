@@ -44,6 +44,12 @@ public class LoopTest {
     }
 
     @Test
+    public void on_with_CharSequence_returns_StringSequence() {
+        then(Loop.on("Hello World!")).isInstanceOf(CharacterSequence.class);
+        then(Loop.on(new StringBuilder(""))).isInstanceOf(CharacterSequence.class);
+    }
+
+    @Test
     public void brk_throws_ReturnValue() {
         final String expectedValue = "test value";
         thenThrownBy(() -> Loop.brk(expectedValue))

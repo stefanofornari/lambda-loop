@@ -18,34 +18,38 @@ package ste.lloop;
 import java.util.function.BiConsumer;
 
 /**
- * A sequence that loops over an array.
- * @param <T> the type of the elements in the array
+ * A sequence that loops over a CharSequence. Note that we do not reuse
+ * ArraySequence to work directly on the sequence itself, not on char[]
+ * extracted from it.
+ *
  */
-public class ArraySequence<T> extends IndexedSequence<T> {
-    private final T[] array;
+public class CharacterSequence extends IndexedSequence<Character> {
+
+    private CharSequence sequence;
 
     /**
-     * Creates a new sequence for the given array.
-     * @param array the array to loop over
+     * Creates a new sequence for the given CharSequence.
+     * @param sequence the CharSequence to loop over
      */
-    public ArraySequence(T[] array) {
+    public CharacterSequence(CharSequence sequence) {
         super();
-        this.array = array;
+        this.sequence = sequence;
     }
 
     @Override
-    public <R> R loop(final BiConsumer<Integer, T> consumer) {
-        if (array == null || array.length == 0) {
+    public <R> R loop(final BiConsumer<Integer, Character> consumer) {
+        final int l;
+        if ((sequence == null) || ((l = sequence.length())) == 0) {
             return null; // Do nothing for null or empty array
         }
 
         if (indexes.to == null) {
-            indexes.to = array.length - 1;
+            indexes.to = l - 1;
         } else {
-            if (indexes.to > array.length - 1) {
-                indexes.to = array.length - 1;
+            if (indexes.to > l - 1) {
+                indexes.to = l - 1;
             }
         }
-        return indexes.loop((i) -> consumer.accept(i, array[i]));
+        return indexes.loop((i) -> consumer.accept(i, sequence.charAt(i)));
     }
 }
