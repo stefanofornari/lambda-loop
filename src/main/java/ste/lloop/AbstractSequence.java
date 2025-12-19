@@ -15,12 +15,16 @@
  */
 package ste.lloop;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 /**
  * A base class for sequences that can be iterated over with indexes.
  *
  * @param <S> the type of the sequence
+ * @param <T> the type of the elements in the sequence
  */
-public abstract class AbstractSequence<S extends AbstractSequence<S>> {
+public abstract class AbstractSequence<S extends AbstractSequence<S, T>, T> {
     /**
      * The numeric series that controls the looping.
      */
@@ -79,4 +83,6 @@ public abstract class AbstractSequence<S extends AbstractSequence<S>> {
         indexes.to(to);
         return (S) this;
     }
+
+
 }

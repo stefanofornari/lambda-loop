@@ -15,27 +15,11 @@
  */
 package ste.lloop;
 
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
-import static ste.lloop.Loop._break_;
 
 /**
- * A sequence that loops over an iterable and can only go forward.
- * @param <T> the type of the elements in the iterable
+ * A sequence that loops only forwards
  */
-public class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnlySequence<T>> {
-    private final Iterable<T> iterable;
-
-    /**
-     * Creates a new sequence for the given iterable.
-     * @param iterable the iterable to loop over
-     */
-    public ForwardOnlySequence(Iterable<T> iterable) {
-        super();
-        this.iterable = iterable;
-    }
-
+public abstract class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnlySequence<T>, T> {
     @Override
     public ForwardOnlySequence<T> to(final int to) {
         if (to < indexes.from) {
@@ -63,42 +47,26 @@ public class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnlySequence
     /**
      * Executes the given consumer for each element in the loop.
      *
-     * <p>If the iterable provided to the constructor was {@code null}, this method will do nothing.
+     * <p>If the array provided to the constructor was {@code null}, this method will do nothing.
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
      * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
      *         without a {@code brk}
      */
-    public <R> R loop(BiConsumer<Integer, T> consumer) {
-        if (iterable == null) {
-            return null;
-        }
+    public abstract <R> R loop(final java.util.function.BiConsumer<Integer, T> consumer);
 
-        if (indexes.step == 0) {
-            return null;
-        }
-
-        final Iterator<T> iterator = iterable.iterator();
-        final AtomicInteger currentIndex = new AtomicInteger(0); // To track iterator's current position
-
-        // Use indexes.loop() to generate the sequence of target indices
-        return indexes.loop(targetIndex -> {
-            T element = null;
-            // Advance the iterator to the position of the targetIndex
-            while (currentIndex.get() <= targetIndex) {
-                if (!iterator.hasNext()) {
-                    // We ran out of elements before reaching the targetIndex
-                    // This can happen if 'to' is set beyond the actual size
-                    // or if 'from' is beyond the actual size.
-                    // return; // Stop the loop
-                    _break_(targetIndex);
-                }
-                element = iterator.next();
-                currentIndex.incrementAndGet();
-            }
-            // If we reached here, element should be the one at targetIndex
-            consumer.accept(targetIndex, element);
-        });
+    /**
+     * Executes the given consumer for each element in the loop.
+     *
+     * <p>If the array provided to the constructor was {@code null}, this method will do nothing.
+     *
+     * @param <R> the type of the return value
+     * @param consumer the consumer to execute for each element
+     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
+     *         without a {@code brk}
+     */
+    public <R> R loop(final java.util.function.Consumer<T> consumer) {
+        return loop((index, element) -> consumer.accept(element));
     }
 }

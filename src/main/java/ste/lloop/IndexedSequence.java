@@ -15,9 +15,6 @@
  */
 package ste.lloop;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
 /**
  * A loop over an array that can be configured with a starting and ending index.
  *
@@ -31,7 +28,7 @@ import java.util.function.Consumer;
  *
  * @param <T> the type of the elements in the array
  */
-public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequence<T>> {
+public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequence<T>, T> {
 
     /**
      * Constructs a new {@link IndexedSequence} instance.
@@ -49,7 +46,7 @@ public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequenc
      * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
      *         without a {@code brk}
      */
-    public abstract <R> R loop(final BiConsumer<Integer, T> consumer);
+    public abstract <R> R loop(final java.util.function.BiConsumer<Integer, T> consumer);
 
     /**
      * Executes the given consumer for each element in the loop.
@@ -61,7 +58,7 @@ public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequenc
      * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
      *         without a {@code brk}
      */
-    public <R> R loop(final Consumer<T> consumer) {
+    public <R> R loop(final java.util.function.Consumer<T> consumer) {
         return loop((index, element) -> consumer.accept(element));
     }
 }
