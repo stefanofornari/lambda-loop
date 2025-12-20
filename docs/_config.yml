@@ -1,3 +1,4 @@
 theme: jekyll-theme-hacker
 title: "λLoop Documentation"
 description: A fluent API for creating loops in Java.
+show_downloads: true
