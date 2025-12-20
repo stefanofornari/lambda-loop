@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [0.4.0]
-- Added Loop.on(Map) and Loop.on(Enumeration) support
+* Added Loop.on(Map) and Loop.on(Enumeration) support
+* Improved site and documenttion (logo, layout, javadoc, getting-started, download links)
 
 ## [0.3.0]
 * Feat: Added CharacterSequence support for looping over CharSequences (Strings, StringBuilders, etc.)
