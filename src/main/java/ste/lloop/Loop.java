@@ -15,7 +15,9 @@
  */
 package ste.lloop;
 
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides a fluent API for creating loops.
@@ -91,8 +93,8 @@ public final class Loop {
      * @param iterable the iterable to loop over
      * @return a new {@link ForwardOnlySequence} instance
      */
-    public static <T> ForwardOnlySequence<T> on(Iterable<T> iterable) {
-        return new ForwardOnlySequence<>(iterable);
+    public static <T> IterableSequence<T> on(Iterable<T> iterable) {
+        return new IterableSequence(iterable);
     }
 
     /**
@@ -103,6 +105,28 @@ public final class Loop {
      */
     public static CharacterSequence on(CharSequence sequence) {
         return new CharacterSequence(sequence);
+    }
+
+    /**
+     * Creates a new loop over the given Map.
+     *
+     * @param <K> the type of the keys in the map
+     * @param <V> the type of the values in the map
+     * @param map the map to loop over
+     * @return a new {@link MapSequence} instance
+     */
+    public static <K, V> MapSequence<K, V> on(Map<K, V> map) {
+        return new MapSequence<>(map);
+    }
+
+    /**
+     * Creates a new loop over the given Enumeration.
+     *
+     * @param sequence the Enumeration to loop over
+     * @return a new {@link CharacterSequence}
+     */
+    public static EnumerationSequence on(Enumeration sequence) {
+        return new EnumerationSequence(sequence);
     }
 
     // -------------------------------------------------------------------------

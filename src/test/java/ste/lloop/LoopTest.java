@@ -15,6 +15,7 @@
  * limitations under the License.
  */package ste.lloop;
 
+import java.util.StringTokenizer;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -27,8 +28,8 @@ public class LoopTest {
     }
 
     @Test
-    public void on_with_iterable_returns_ForwardOnlySequence() {
-        then(Loop.on(new java.util.HashSet<>(java.util.Arrays.asList("one", "two", "three")))).isInstanceOf(ForwardOnlySequence.class);
+    public void on_with_iterable_returns_IterableSequence() {
+        then(Loop.on(new java.util.HashSet<>(java.util.Arrays.asList("one", "two", "three")))).isInstanceOf(IterableSequence.class);
     }
 
     @Test
@@ -47,6 +48,16 @@ public class LoopTest {
     public void on_with_CharSequence_returns_StringSequence() {
         then(Loop.on("Hello World!")).isInstanceOf(CharacterSequence.class);
         then(Loop.on(new StringBuilder(""))).isInstanceOf(CharacterSequence.class);
+    }
+
+    @Test
+    public void on_with_Enumeration_returns_EnumerationSequence() {
+        then(Loop.on(new StringTokenizer("Hello world"))).isInstanceOf(EnumerationSequence.class);
+    }
+
+    @Test
+    public void on_with_Map_returns_MapSequence() {
+        then(Loop.on(new java.util.HashMap<>())).isInstanceOf(MapSequence.class);
     }
 
     @Test

@@ -39,12 +39,14 @@ public class Example {
 }
 ```
 
-### Array loop
+### Looping over sequences
 
 ```java
 import ste.lloop.Loop;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Enumeration;
+import java.util.StringTokenizer;
 
 public class Example {
     public static void main(String[] args) {
@@ -70,6 +72,12 @@ public class Example {
             System.out.println("index: " + index + ", element: " + element);
         });
 
+        // loops over items using an Enumeration (e.g. StringTokenizer)
+        Enumeration<Object> tokens = new StringTokenizer("one two three");
+        Loop.on(tokens).loop(element -> {
+             System.out.println("element: " + element);
+        });
+
         // If a null array is provided, the loop will not execute.
         Loop.on((String[]) null).loop((index, element) -> {
             System.out.println("This will not be printed.");
@@ -78,6 +86,29 @@ public class Example {
         // loops over items with a step of 2
         Loop.on("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k").from(0).to(10).step(2).loop((index, element) -> {
             System.out.println("index: " + index + ", element: " + element);
+        });
+    }
+}
+```
+
+### Looping over Maps
+
+```java
+import ste.lloop.Loop;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map<String, Integer> map = Map.of("one", 1, "two", 2);
+
+        // loops over map entries
+        Loop.on(map).loop((key, value) -> {
+            System.out.println("key: " + key + ", value: " + value);
+        });
+
+        // loops over map entries with index
+        Loop.on(map).loop((index, key, value) -> {
+             System.out.println(index + ": " + key + " = " + value);
         });
     }
 }

@@ -61,7 +61,8 @@ of all worlds!
 
 λLoop's `on()` method is overloaded to accept any `java.lang.Iterable`. This
 means you can seamlessly loop over `List`s, `Set`s, or any custom class that
-implements the `Iterable` interface.
+implements the `Iterable` interface. Note how λLoop provides the index even for
+collections that don't naturally have one, like a `Set`.
 
 ```java
 import ste.lloop.Loop;
@@ -70,13 +71,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
-// Looping over a List
+// Looping over a List (without index)
 List<String> fruits = Arrays.asList("apple", "banana", "cherry");
-Loop.on(fruits).loop((index, fruit) -> {
-    System.out.println("List - index: " + index + ", fruit: " + fruit);
+Loop.on(fruits).loop(fruit -> {
+    System.out.println("fruit: " + fruit);
 });
 
-// Looping over a Set
+// Looping over a Set (with index)
 Set<Integer> numbers = new HashSet<>(Arrays.asList(10, 20, 30));
 Loop.on(numbers).loop((index, number) -> {
     System.out.println("Set - index: " + index + ", number: " + number);
@@ -170,6 +171,87 @@ import ste.lloop.Loop;
 String text = "Hello";
 Loop.on(text).loop((index, character) -> {
     System.out.println("Character at index " + index + ": " + character);
+});
+```
+
+## Looping over Enumerations
+
+Legacy Java APIs often use `java.util.Enumeration`. λLoop allows you to iterate
+over them with the same consistent API.
+
+### Traditional `while` loop
+
+To iterate over an `Enumeration`, you typically use a `while` loop:
+
+```java
+import java.util.StringTokenizer;
+import java.util.Enumeration;
+
+Enumeration<Object> tokens = new StringTokenizer("Hello world");
+while (tokens.hasMoreElements()) {
+    System.out.println("token: " + tokens.nextElement());
+}
+```
+
+### λLoop equivalent
+
+With λLoop, it's much simpler and consistent:
+
+```java
+import ste.lloop.Loop;
+import java.util.StringTokenizer;
+
+Loop.on(new StringTokenizer("Hello world")).loop(token -> {
+    System.out.println("token: " + token);
+});
+```
+
+### λLoop equivalent with index
+
+You can also get the index of the current element:
+
+```java
+import ste.lloop.Loop;
+import java.util.StringTokenizer;
+
+Loop.on(new StringTokenizer("Hello world")).loop((index, token) -> {
+    System.out.println("index: " + index + ", token: " + token);
+});
+```
+
+## Looping over Maps
+
+Maps are another fundamental data structure. λLoop treats them as first-class citizens, allowing iteration over key-value pairs with ease.
+
+### Traditional `forEach`
+
+```java
+import java.util.Map;
+
+Map<String, Integer> map = Map.of("one", 1, "two", 2);
+map.forEach((key, value) -> {
+    System.out.println(key + " = " + value);
+});
+```
+
+### λLoop equivalent
+
+λLoop provides a similar fluent interface but also adds the ability to access the iteration index, which is not directly available in `Map.forEach`.
+
+```java
+import ste.lloop.Loop;
+import java.util.Map;
+
+Map<String, Integer> map = Map.of("one", 1, "two", 2);
+
+// Standard key-value loop
+Loop.on(map).loop((key, value) -> {
+    System.out.println("key: " + key + ", value: " + value);
+});
+
+// Loop with index, key, and value
+Loop.on(map).loop((index, key, value) -> {
+    System.out.println(index + ": " + key + " = " + value);
 });
 ```
 
