@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0]
+- Added Loop.on(Map) and Loop.on(Enumeration) support
+
 ## [0.3.0]
 * Feat: Added CharacterSequence support for looping over CharSequences (Strings, StringBuilders, etc.)
   ([Issue #3 - Loop over a CharSequence](https://github.com/stefanofornari/lambda-loop/issues/4))
