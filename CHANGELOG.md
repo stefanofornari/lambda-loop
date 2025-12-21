@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## [0.5.0]
+* Completed impletentation of #6 - Loop over Enum and Iterator
+* Implemented #8 - Loop over a file line-by-line
+* Updated documentation
+
 ## [0.4.0]
 * Added Loop.on(Map) and Loop.on(Enumeration) support
 * Improved site and documenttion (logo, layout, javadoc, getting-started, download links)
