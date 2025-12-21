@@ -3,7 +3,7 @@
     <groupId>com.github.stefanofornari</groupId>
     <artifactId>lambda-loop</artifactId>
     <packaging>jar</packaging>
-    <version>0.5.0</version>
+    <version>0.5.1-SNAPSHOT</version>
     <name>λLoop</name>
     <description>A fluent and expressive way to create loops in Java.</description>
     <url>https://lambda-loop.github.io/</url>
@@ -24,7 +24,7 @@
     <scm>
         <connection>scm:git:git@github.com:stefanofornari/lambda-loop.git</connection>
         <url>https://github.com/stefanofornari/lambda-loop</url>
-        <tag>lambda-loop-0.5.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
 
