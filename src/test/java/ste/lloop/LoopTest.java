@@ -56,6 +56,11 @@ public class LoopTest {
     }
 
     @Test
+    public void on_with_Iterator_returns_IteratorSequence() {
+        then(Loop.on(java.util.Arrays.asList("one", "two").iterator())).isInstanceOf(IteratorSequence.class);
+    }
+
+    @Test
     public void on_with_Map_returns_MapSequence() {
         then(Loop.on(new java.util.HashMap<>())).isInstanceOf(MapSequence.class);
     }

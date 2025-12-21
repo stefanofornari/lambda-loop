@@ -219,6 +219,71 @@ Loop.on(new StringTokenizer("Hello world")).loop((index, token) -> {
 });
 ```
 
+## Looping over Iterators
+
+λLoop also supports looping over `java.util.Iterator`.
+
+### Looping over a Scanner
+
+A common use case for `Iterator` is reading from a `Scanner`, for example to process input from the standard input:
+
+```java
+import ste.lloop.Loop;
+import java.util.Scanner;
+
+Scanner scanner = new Scanner(System.in);
+Loop.on(scanner).loop(line -> {
+    if ("quit".equals(line)) {
+        Loop.brk(null);
+    }
+    System.out.println("You entered: " + line);
+});
+```
+
+### Traditional `while` loop
+
+To iterate over any other `Iterator`, you typically use a `while` loop:
+
+```java
+import java.util.Iterator;
+import java.util.Arrays;
+
+Iterator<String> iterator = Arrays.asList("one", "two", "three").iterator();
+while (iterator.hasNext()) {
+    System.out.println("element: " + iterator.next());
+}
+```
+
+### λLoop equivalent
+
+With λLoop, you can use the same consistent API:
+
+```java
+import ste.lloop.Loop;
+import java.util.Iterator;
+import java.util.Arrays;
+
+Iterator<String> iterator = Arrays.asList("one", "two", "three").iterator();
+Loop.on(iterator).loop(element -> {
+    System.out.println("element: " + element);
+});
+```
+
+### λLoop equivalent with index
+
+You can also get the index of the current element:
+
+```java
+import ste.lloop.Loop;
+import java.util.Iterator;
+import java.util.Arrays;
+
+Iterator<String> iterator = Arrays.asList("one", "two", "three").iterator();
+Loop.on(iterator).loop((index, element) -> {
+    System.out.println("index: " + index + ", element: " + element);
+});
+```
+
 ## Looping over Maps
 
 Maps are another fundamental data structure. λLoop treats them as first-class citizens, allowing iteration over key-value pairs with ease.

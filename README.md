@@ -78,6 +78,13 @@ public class Example {
              System.out.println("element: " + element);
         });
 
+        // loops over items using an Iterator (e.g. Scanner)
+        java.util.Scanner scanner = new java.util.Scanner("one two three");
+        Loop.on(scanner).loop(element -> {
+             System.out.println("element: " + element);
+        });
+
+
         // If a null array is provided, the loop will not execute.
         Loop.on((String[]) null).loop((index, element) -> {
             System.out.println("This will not be printed.");

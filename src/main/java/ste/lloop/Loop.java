@@ -16,6 +16,7 @@
 package ste.lloop;
 
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,11 @@ import java.util.Map;
  * // Numeric loop from 0 to 10, with a step of 2
  * Loop.on().from(0).to(10).step(2).loop(i -> {
  *     // i will be 0, 2, 4, 6, 8, 10
+ * });
+ *
+ * // Loop over an iterator
+ * Loop.on(iterator).loop(element -> {
+ *     // do something with element
  * });
  * }</pre>
  */
@@ -127,6 +133,17 @@ public final class Loop {
      */
     public static EnumerationSequence on(Enumeration sequence) {
         return new EnumerationSequence(sequence);
+    }
+
+    /**
+     * Creates a new loop over the given Iterator.
+     *
+     * @param <T> the type of the elements in the iterator
+     * @param iterator the Iterator to loop over
+     * @return a new {@link IteratorSequence}
+     */
+    public static <T> IteratorSequence<T> on(Iterator<T> iterator) {
+        return new IteratorSequence<>(iterator);
     }
 
     // -------------------------------------------------------------------------
