@@ -16,6 +16,7 @@
  */package ste.lloop;
 
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -51,8 +52,8 @@ public class LoopTest {
     }
 
     @Test
-    public void on_with_Enumeration_returns_EnumerationSequence() {
-        then(Loop.on(new StringTokenizer("Hello world"))).isInstanceOf(EnumerationSequence.class);
+    public void on_with_Enumeration_returns_IteratorSequence() {
+        then(Loop.on(new StringTokenizer("Hello world"))).isInstanceOf(IteratorSequence.class);
     }
 
     @Test
@@ -63,6 +64,15 @@ public class LoopTest {
     @Test
     public void on_with_Map_returns_MapSequence() {
         then(Loop.on(new java.util.HashMap<>())).isInstanceOf(MapSequence.class);
+    }
+
+    @Test
+    public void on_null_enumeration_does_nothing() {
+        final AtomicInteger counter = new AtomicInteger(0);
+        Loop.on((java.util.Enumeration) null).loop(element -> {
+            counter.incrementAndGet();
+        });
+        then(counter.get()).isEqualTo(0);
     }
 
     @Test

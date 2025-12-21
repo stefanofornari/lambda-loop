@@ -1,18 +1,3 @@
-/*
- * Copyright 2025 the original author or authors from the λLoop project (https://lambda-loop.github.io/)..
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package ste.lloop;
 
 import java.util.StringTokenizer;
@@ -21,14 +6,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
-public class EnumerationSequenceTest {
+public class EnumerationLoopTest {
 
     @Test
     public void loop_through_the_elements_of_an_enumeration() {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence(new StringTokenizer("Hello world!")).loop((element) -> {
+        Loop.on(new StringTokenizer("Hello world!")).loop((element) -> {
             counter.incrementAndGet();
             sb.append(element).append(",");
         });
@@ -42,7 +27,7 @@ public class EnumerationSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence(new StringTokenizer("Hello world!")).loop((index, element) -> {
+        Loop.on(new StringTokenizer("Hello world!")).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -56,7 +41,7 @@ public class EnumerationSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence<>(new StringTokenizer("a b c d e")).from(2).loop((index, element) -> {
+        Loop.on(new StringTokenizer("a b c d e")).from(2).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -70,7 +55,7 @@ public class EnumerationSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence<>(new StringTokenizer("a b c d e")).from(1).to(3).loop((index, element) -> {
+        Loop.on(new StringTokenizer("a b c d e")).from(1).to(3).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -85,7 +70,7 @@ public class EnumerationSequenceTest {
         final StringBuilder sb = new StringBuilder();
 
         thenThrownBy(() -> {
-            new EnumerationSequence<>(new StringTokenizer("a b c d e")).from(3).to(1).loop((index, element) -> {
+            Loop.on(new StringTokenizer("a b c d e")).from(3).to(1).loop((index, element) -> {
                 counter.incrementAndGet();
                 sb.append(index).append(":").append(element).append(",");
             });
@@ -99,7 +84,7 @@ public class EnumerationSequenceTest {
     @Test
     public void from_throws_exception_if_less_than_zero() {
         thenThrownBy(() -> {
-            new EnumerationSequence<>(new StringTokenizer("a b c d e")).from(-1);
+            Loop.on(new StringTokenizer("a b c d e")).from(-1);
         }).isInstanceOf(IllegalArgumentException.class)
           .hasMessage("from can not be negative or greater than to for forward-only sequences");
     }
@@ -109,13 +94,13 @@ public class EnumerationSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence<>(new StringTokenizer("a b c d e"))
+        Loop.on(new StringTokenizer("a b c d e"))
             .from(0).to(100).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
 
-        then(counter.get()).isEqualTo(5); // Should loop 0, 1, 2
+        then(counter.get()).isEqualTo(5); // Should loop 0, 1, 2, 3, 4
         then(sb.toString()).isEqualTo("0:a,1:b,2:c,3:d,4:e,");
     }
 
@@ -124,7 +109,7 @@ public class EnumerationSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence<String>(null).loop((index, element) -> {
+        Loop.on((java.util.Enumeration) null).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -138,7 +123,7 @@ public class EnumerationSequenceTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final StringBuilder sb = new StringBuilder();
 
-        new EnumerationSequence<>(new StringTokenizer("")).loop((index, element) -> {
+        Loop.on(new StringTokenizer("")).loop((index, element) -> {
             counter.incrementAndGet();
             sb.append(index).append(":").append(element).append(",");
         });
@@ -151,14 +136,14 @@ public class EnumerationSequenceTest {
     public void loop_with_step() {
         // from(0).to(10).step(2) -> 0,2,..,10
         final StringBuilder sb1 = new StringBuilder();
-        new EnumerationSequence<>(
+        Loop.on(
             new StringTokenizer("a b c d e f g h i j k")
         ).from(0).to(10).step(2).loop((index, element) -> sb1.append(index).append(element));
         then(sb1.toString()).isEqualTo("0a2c4e6g8i10k");
 
         // step is zero, no loop
         final StringBuilder sb5 = new StringBuilder();
-        new EnumerationSequence<>(
+        Loop.on(
             new StringTokenizer("a b c d e f g h i j k")
         ).from(0).to(10).step(0).loop((index, element) -> sb5.append(index).append(element));
         then(sb5.toString()).isEmpty();
@@ -166,7 +151,7 @@ public class EnumerationSequenceTest {
 
     @Test
     public void loop_returns_value_on_break() {
-        String result = new EnumerationSequence<>(new StringTokenizer("a b c d e")).<String>loop((index, element) -> {
+        String result = Loop.on(new StringTokenizer("a b c d e")).<String>loop((index, element) -> {
             if (index == 2) {
                 Loop.brk(element);
             }

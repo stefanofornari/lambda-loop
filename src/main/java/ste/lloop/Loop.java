@@ -126,13 +126,18 @@ public final class Loop {
     }
 
     /**
-     * Creates a new loop over the given Enumeration.
+     * Creates a new loop over the given Enumeration, converting it to an {@link Iterator}
+     * using {@link Enumeration#asIterator()} internally.
      *
-     * @param sequence the Enumeration to loop over
-     * @return a new {@link CharacterSequence}
+     * @param <T> the type of the elements in the enumeration
+     * @param enumeration the Enumeration to loop over
+     * @return a new {@link IteratorSequence} instance
      */
-    public static EnumerationSequence on(Enumeration sequence) {
-        return new EnumerationSequence(sequence);
+    public static <T> IteratorSequence<T> on(Enumeration<T> enumeration) {
+        if (enumeration == null) {
+            return new IteratorSequence<>(null);
+        }
+        return on(enumeration.asIterator());
     }
 
     /**
