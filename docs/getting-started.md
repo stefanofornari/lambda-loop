@@ -227,30 +227,18 @@ Loop.on(new StringTokenizer("Hello world")).loop((index, token) -> {
 
 A common use case for `Iterator` is reading from a `Scanner`, for example to process input from the standard input:
 
-```java
-import ste.lloop.Loop;
-import java.util.Scanner;
-
-Scanner scanner = new Scanner(System.in);
-Loop.on(scanner).loop(line -> {
-    if ("quit".equals(line)) {
-        Loop.brk(null);
-    }
-    System.out.println("You entered: " + line);
-});
-```
-
 ### Traditional `while` loop
 
 To iterate over any other `Iterator`, you typically use a `while` loop:
 
 ```java
-import java.util.Iterator;
-import java.util.Arrays;
-
-Iterator<String> iterator = Arrays.asList("one", "two", "three").iterator();
-while (iterator.hasNext()) {
-    System.out.println("element: " + iterator.next());
+Scanner scanner = new Scanner(System.in);
+while (true) {
+    String line = scanner.nextLine();
+    if ("quit".equals(line)) {
+        break;
+    }
+    System.out.println("You entered: " + line);
 }
 ```
 
@@ -260,12 +248,14 @@ With λLoop, you can use the same consistent API:
 
 ```java
 import ste.lloop.Loop;
-import java.util.Iterator;
-import java.util.Arrays;
+import java.util.Scanner;
 
-Iterator<String> iterator = Arrays.asList("one", "two", "three").iterator();
-Loop.on(iterator).loop(element -> {
-    System.out.println("element: " + element);
+Scanner scanner = new Scanner(System.in);
+Loop.on(scanner).loop(line -> {
+    if ("quit".equals(line)) {
+        Loop.brk();
+    }
+    System.out.println("You entered: " + line);
 });
 ```
 
