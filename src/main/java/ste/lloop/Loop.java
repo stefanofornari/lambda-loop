@@ -15,6 +15,9 @@
  */
 package ste.lloop;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -52,6 +55,21 @@ import java.util.Map;
  * Loop.on(iterator).loop(element -> {
  *     // do something with element
  * });
+ *
+ * // Loop over lines from a file
+ * Loop.on(new File("path/to/file.txt")).loop(line -> {
+ *     // do something with each line
+ * });
+ *
+ * // Loop over lines from a Path
+ * Loop.on(Paths.get("path/to/file.txt")).loop((index, line) -> {
+ *     // do something with index and line
+ * });
+ *
+ * // Loop over lines from a BufferedReader
+ * Loop.on(new BufferedReader(new FileReader("path/to/file.txt"))).loop(line -> {
+ *     // do something with each line
+ * });
  * }</pre>
  */
 public final class Loop {
@@ -77,7 +95,7 @@ public final class Loop {
      * @return a new {@link ArraySequence} instance
      */
     @SafeVarargs
-    public static <T> ArraySequence<T> on(T... items) {
+    public static <T> ArraySequence<T> on(final T... items) {
         return new ArraySequence<>(items);
     }
 
@@ -88,7 +106,7 @@ public final class Loop {
      * @param list the list to loop over
      * @return a new {@link ListSequence} instance
      */
-    public static <T> ListSequence<T> on(List<T> list) {
+    public static <T> ListSequence<T> on(final List<T> list) {
         return new ListSequence<>(list);
     }
 
@@ -99,7 +117,7 @@ public final class Loop {
      * @param iterable the iterable to loop over
      * @return a new {@link ForwardOnlySequence} instance
      */
-    public static <T> IterableSequence<T> on(Iterable<T> iterable) {
+    public static <T> IterableSequence<T> on(final Iterable<T> iterable) {
         return new IterableSequence(iterable);
     }
 
@@ -109,7 +127,7 @@ public final class Loop {
      * @param sequence the CharSequence to loop over
      * @return a new {@link CharacterSequence}
      */
-    public static CharacterSequence on(CharSequence sequence) {
+    public static CharacterSequence on(final CharSequence sequence) {
         return new CharacterSequence(sequence);
     }
 
@@ -121,7 +139,7 @@ public final class Loop {
      * @param map the map to loop over
      * @return a new {@link MapSequence} instance
      */
-    public static <K, V> MapSequence<K, V> on(Map<K, V> map) {
+    public static <K, V> MapSequence<K, V> on(final Map<K, V> map) {
         return new MapSequence<>(map);
     }
 
@@ -133,7 +151,7 @@ public final class Loop {
      * @param enumeration the Enumeration to loop over
      * @return a new {@link IteratorSequence} instance
      */
-    public static <T> IteratorSequence<T> on(Enumeration<T> enumeration) {
+    public static <T> IteratorSequence<T> on(final Enumeration<T> enumeration) {
         if (enumeration == null) {
             return new IteratorSequence<>(null);
         }
@@ -147,8 +165,38 @@ public final class Loop {
      * @param iterator the Iterator to loop over
      * @return a new {@link IteratorSequence}
      */
-    public static <T> IteratorSequence<T> on(Iterator<T> iterator) {
+    public static <T> IteratorSequence<T> on(final Iterator<T> iterator) {
         return new IteratorSequence<>(iterator);
+    }
+
+    /**
+     * Creates a new loop over the lines of a given file.
+     *
+     * @param file the file to loop over
+     * @return a new {@link LinesSequence} instance
+     */
+    public static LinesSequence on(final File file) {
+        return new LinesSequence(file);
+    }
+
+    /**
+     * Creates a new loop over the lines of a given path.
+     *
+     * @param path the path to loop over
+     * @return a new {@link LinesSequence} instance
+     */
+    public static LinesSequence on(final Path path) {
+        return new LinesSequence(path);
+    }
+
+    /**
+     * Creates a new loop over the lines of a given BufferedReader.
+     *
+     * @param reader the BufferedReader to loop over
+     * @return a new {@link LinesSequence} instance
+     */
+    public static LinesSequence on(final BufferedReader reader) {
+        return new LinesSequence(reader);
     }
 
     // -------------------------------------------------------------------------
@@ -161,8 +209,11 @@ public final class Loop {
      * @param value the value to return
      * @throws ReturnValue with the given value
      */
-    public static void brk(Object value) {
-        throw new ReturnValue(value);
+    public static void brk(final Object... value) {
+        if ((value == null) || (value.length == 0)) {
+            throw new ReturnValue(null);
+        }
+        throw new ReturnValue(value[0]);
     }
 
     /**
@@ -172,7 +223,7 @@ public final class Loop {
      * @param value the value to return
      * @throws ReturnValue with the given value
      */
-    public static void _break_(Object value) {
-        throw new ReturnValue(value);
+    public static void _break_(final Object... value) {
+        brk(value);
     }
 }

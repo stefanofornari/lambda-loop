@@ -84,6 +84,13 @@ public class Example {
              System.out.println("element: " + element);
         });
 
+        // loops over lines from a file
+        // Loop.on(new java.io.File("path/to/file.txt")).loop(line -> {
+        //      System.out.println("Line: " + line);
+        // });
+
+
+
         // If a null array is provided, the loop will not execute.
         Loop.on((String[]) null).loop((index, element) -> {
             System.out.println("This will not be printed.");

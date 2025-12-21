@@ -274,6 +274,77 @@ Loop.on(iterator).loop((index, element) -> {
 });
 ```
 
+## Looping over Files, Paths and BufferReaders (line by line)
+
+λLoop simplifies reading files line by line, offering a fluent API for `File`, `Path`, and `BufferedReader`. It handles underlying `IOException`s by wrapping them in `RuntimeException`s (or `IllegalArgumentException`s for invalid file/path inputs) and automatically closes the reader when the loop finishes or breaks.
+
+### Traditional approach (BufferedReader)
+
+Traditionally, reading a file line by line involves explicit `BufferedReader` handling and error management:
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
+
+File file = new File("path/to/file.txt");
+try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println("Line: " + line);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+### λLoop equivalent
+
+With λLoop, you can read a file line by line with a single, fluent expression:
+
+```java
+import ste.lloop.Loop;
+import java.io.File;
+
+File file = new File("path/to/file.txt");
+Loop.on(file).loop(line -> {
+    System.out.println("Line: " + line);
+});
+```
+
+Using `java.nio.file.Path` is equally straightforward:
+
+```java
+import ste.lloop.Loop;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+Path path = Paths.get("path/to/file.txt");
+Loop.on(path).loop((index, line) -> {
+    System.out.println("Index: " + index + ", Line: " + line);
+});
+```
+
+If you already have a `BufferedReader` instance, you can loop over it directly:
+
+```java
+import ste.lloop.Loop;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
+
+File file = new File("path/to/file.txt");
+try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+    Loop.on(reader).loop(line -> {
+        System.out.println("Line: " + line);
+    });
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
 ## Looping over Maps
 
 Maps are another fundamental data structure. λLoop treats them as first-class citizens, allowing iteration over key-value pairs with ease.

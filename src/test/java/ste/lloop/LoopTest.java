@@ -76,7 +76,25 @@ public class LoopTest {
     }
 
     @Test
+    public void on_with_file_returns_LinesSequence() {
+        then(Loop.on(new java.io.File("pom.xml"))).isInstanceOf(LinesSequence.class);
+    }
+
+    @Test
+    public void on_with_path_returns_LinesSequence() {
+        then(Loop.on(java.nio.file.Paths.get("pom.xml"))).isInstanceOf(LinesSequence.class);
+    }
+
+    @Test
+    public void on_with_buffered_reader_returns_LinesSequence() {
+        then(Loop.on(new java.io.BufferedReader(new java.io.StringReader("")))).isInstanceOf(LinesSequence.class);
+    }
+
+    @Test
     public void brk_throws_ReturnValue() {
+        //
+        // with values
+        //
         final String expectedValue = "test value";
         thenThrownBy(() -> Loop.brk(expectedValue))
             .isInstanceOf(ReturnValue.class)
@@ -88,5 +106,13 @@ public class LoopTest {
             .isInstanceOf(ReturnValue.class)
             .extracting("value")
             .isEqualTo(expectedIntValue);
+
+        //
+        // without value
+        //
+        thenThrownBy(() -> Loop.brk())
+            .isInstanceOf(ReturnValue.class)
+            .extracting("value")
+            .isNull();
     }
 }
