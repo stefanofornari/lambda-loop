@@ -18,8 +18,14 @@ package ste.lloop;
 
 /**
  * A sequence that loops only forwards
+ * @param <T> the type of the elements in the sequence
  */
 public abstract class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnlySequence<T>, T> {
+    /**
+     * Constructs a new {@link ForwardOnlySequence} instance.
+     */
+    protected ForwardOnlySequence() {
+    }
     @Override
     public ForwardOnlySequence<T> to(final int to) {
         if (to < indexes.from) {
@@ -51,8 +57,8 @@ public abstract class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnl
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public abstract <R> R loop(final java.util.function.BiConsumer<Integer, T> consumer);
 
@@ -63,8 +69,8 @@ public abstract class ForwardOnlySequence<T> extends AbstractSequence<ForwardOnl
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public <R> R loop(final java.util.function.Consumer<T> consumer) {
         return loop((index, element) -> consumer.accept(element));

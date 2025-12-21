@@ -43,8 +43,8 @@ public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequenc
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public abstract <R> R loop(final java.util.function.BiConsumer<Integer, T> consumer);
 
@@ -55,8 +55,8 @@ public abstract class IndexedSequence<T> extends AbstractSequence<IndexedSequenc
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public <R> R loop(final java.util.function.Consumer<T> consumer) {
         return loop((index, element) -> consumer.accept(element));

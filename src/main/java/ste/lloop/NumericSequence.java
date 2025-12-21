@@ -98,12 +98,12 @@ public class NumericSequence {
      * not execute.
      * <p>
      * If {@code to} is not set (infinite loop), the loop will continue indefinitely until
-     * {@link Loop#brk(Object)} is called.
+     * {@link ste.lloop.Loop#_break_(Object...)} is called.
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each value
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public <R> R loop(Consumer<Integer> consumer) {
         if (step == 0) {

@@ -43,8 +43,8 @@ public class IteratorSequence<T> extends ForwardOnlySequence<T> {
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     @Override
     public <R> R loop(BiConsumer<Integer, T> consumer) {

@@ -5,11 +5,26 @@ import java.util.Optional;
 import java.util.Random;
 import ste.lloop.Loop;
 
+/**
+ * Compares the performance of λLoop with Java Streams for searching elements in a list.
+ */
 public class StreamComparison {
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private StreamComparison() {
+    }
 
     private static final int LIST_SIZE = 50;
     private static final int SEARCH_ITERATIONS = 1000000;
 
+    /**
+     * Main method to run the comparison.
+     *
+     * @param args command line arguments (not used)
+     * @throws Exception if an error occurs during execution
+     */
     public static void main(String[] args) throws Exception {
         List<String> names = generateNames();
         Random random = new Random();

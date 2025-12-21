@@ -48,8 +48,8 @@ public class MapSequence<K, V> extends AbstractSequence<MapSequence<K, V>, Map.E
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public <R> R loop(MapLoopConsumer<K, V> consumer) {
         if (map == null || map.isEmpty()) {
@@ -84,8 +84,8 @@ public class MapSequence<K, V> extends AbstractSequence<MapSequence<K, V>, Map.E
      *
      * @param <R> the type of the return value
      * @param consumer the consumer to execute for each element
-     * @return the value passed to {@link Loop#brk(Object)}, or {@code null} if the loop completes
-     *         without a {@code brk}
+     * @return the value passed to {@link ste.lloop.Loop#_break_(Object...)}, or {@code null} if the loop completes
+     *         without a {@code _break_}
      */
     public <R> R loop(BiConsumer<K, V> consumer) {
         return loop((index, key, value) -> consumer.accept(key, value));
