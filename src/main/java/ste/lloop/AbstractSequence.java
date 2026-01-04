@@ -15,9 +15,6 @@
  */
 package ste.lloop;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
 /**
  * A base class for sequences that can be iterated over with indexes.
  *
