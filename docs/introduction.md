@@ -21,6 +21,7 @@ Traditional Java loops, while powerful, can sometimes lead to verbose code, espe
 *   **Numeric Loops:** Iterate over ranges of integers with customizable steps.
 *   **Collection Loops:** Seamlessly loop over arrays, Lists, Sets, and other Iterables.
 *   **Map Loops:** Iterate over map entries, keys, or values with ease.
-*   **Break and Return:** Easily break out of loops and return values, even from within lambda expressions.
+*   **Break, Continue and Return:** Easily break out of loops and return a value, as well as
+    skipping to the next iteration, even from within lambda expressions.
 
 This documentation will guide you through the various features of λLoop, providing examples and comparisons with traditional Java approaches. Let's get started!
