@@ -228,4 +228,16 @@ class LinesSequenceTest {
         });
         then(result).isEqualTo("c");
     }
+
+    @Test
+    public void loop_continues_on_continue() throws IOException {
+        final StringBuilder sb = new StringBuilder();
+        new LinesSequence(createTestFile("a\nb\nc\nd\ne")).loop((index, element) -> {
+            if (index == 2) {
+                Loop.cntn();
+            }
+            sb.append(index).append(':').append(element).append(',');
+        });
+        then(sb.toString()).isEqualTo("0:a,1:b,3:d,4:e,");
+    }
 }

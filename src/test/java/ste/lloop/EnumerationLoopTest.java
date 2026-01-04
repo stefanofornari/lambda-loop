@@ -158,4 +158,16 @@ public class EnumerationLoopTest {
         });
         then(result).isEqualTo("c");
     }
+
+    @Test
+    public void loop_continues_on_continue() {
+        final StringBuilder sb = new StringBuilder();
+        Loop.on(new StringTokenizer("a b c d e")).<String>loop((index, element) -> {
+            if (index == 2) {
+                Loop.cntn();
+            }
+            sb.append(index).append(':').append(element).append(',');
+        });
+        then(sb.toString()).isEqualTo("0:a,1:b,3:d,4:e,");
+    }
 }

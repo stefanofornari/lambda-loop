@@ -184,7 +184,7 @@ public class CharacterSequenceTest {
     @Test
     public void loop_continues_on_continue() {
         final StringBuilder sb = new StringBuilder();
-        new CharacterSequence("abcde").loop(index, element -> {
+        new CharacterSequence("abcde").loop((index, element) -> {
             if (index == 2) {
                 Loop.cntn();
             }

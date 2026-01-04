@@ -171,4 +171,18 @@ public class ListSequenceTest {
         });
         then(result).isEqualTo("c");
     }
+
+    @Test
+    public void loop_continues_on_continue() {
+        final List<String> list = List.of("a", "b", "c", "d", "e");
+
+        final StringBuilder sb = new StringBuilder();
+        new ListSequence<>(list).<String>loop((index, element) -> {
+            if (index == 2) {
+                Loop.cntn();
+            }
+            sb.append(index).append(':').append(element).append(',');
+        });
+        then(sb.toString()).isEqualTo("0:a,1:b,3:d,4:e,");
+    }
 }

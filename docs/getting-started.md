@@ -577,3 +577,23 @@ System.out.println(message); // prints "Found a cherry at index 2!"
 
 This approach allows you to exit the loop at any point and return a value,
 making your code more readable and expressive.
+
+## Continuing a loop
+
+Similarly to `brk()`, you can use `cntn()` (or `_continue_()`) to skip the
+rest of the current iteration and proceed to the next one. This is equivalent
+to the `continue` keyword in traditional Java loops.
+
+Here is how you can print only odd numbers in a range:
+
+```java
+import static ste.lloop.Loop.cntn;
+import ste.lloop.Loop;
+
+Loop.on().from(0).to(10).loop(i -> {
+    if (i % 2 == 0) {
+        cntn();
+    }
+    System.out.println(i); // will print 1, 3, 5, 7, 9
+});
+```

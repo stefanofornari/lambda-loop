@@ -145,6 +145,25 @@ public class Example {
 }
 ```
 
+### Continuing a loop
+
+```java
+import static ste.lloop.Loop.cntn;
+import ste.lloop.Loop;
+
+public class Example {
+    public static void main(String[] args) {
+        // Print only odd numbers
+        Loop.on().from(0).to(10).loop(i -> {
+            if (i % 2 == 0) {
+                cntn();
+            }
+            System.out.println(i); // will print 1, 3, 5, 7, 9
+        });
+    }
+}
+```
+
 ## License
 
 This project is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details.

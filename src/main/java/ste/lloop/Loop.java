@@ -227,10 +227,23 @@ public final class Loop {
         brk(value);
     }
 
+    /**
+     * Throws a {@link Continue} exception.
+     * This method is intended to be used inside a loop to skip the rest of the current iteration
+     * and proceed to the next one.
+     *
+     * @throws Continue always
+     */
     public static void cntn() {
         throw new Continue();
     }
 
+    /**
+     * Same as cntn() - which version do you prefer? please let me know, we will
+     * remove the less voted one.
+     *
+     * @throws Continue always
+     */
     public static void _continue_() {
         cntn();
     }
