@@ -19,7 +19,7 @@ package ste.lloop;
  * A holder for a return value that can be used in a lambda expression.
  *
  */
-public class ReturnValue extends RuntimeException {
+public class ReturnValue extends NoStackException {
 
     /**
      * The value of the return value.
@@ -50,17 +50,6 @@ public class ReturnValue extends RuntimeException {
      */
     public <R> R value() {
         return (R)value;
-    }
-
-    /**
-     * Overridden to avoid to create a stack trace, which is an expensive and
-     * resource intensive operation.
-     *
-     * @return this
-     */
-    @Override
-    public synchronized Throwable fillInStackTrace() {
-        return this;
     }
 
     @Override

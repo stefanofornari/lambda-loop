@@ -126,10 +126,13 @@ public class NumericSequence {
 
             int i = from;
             while ((forward && i <= actualTo) || (!forward && i >= actualTo)) {
-                consumer.accept(i); i += increment;
+                try {
+                  consumer.accept(i);
+                } catch (Continue c) {}
+                i += increment;
             }
-        } catch (ReturnValue e) {
-            return e.value();
+        } catch (ReturnValue v) {
+            return v.value();
         }
 
         return null;

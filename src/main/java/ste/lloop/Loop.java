@@ -226,4 +226,12 @@ public final class Loop {
     public static void _break_(final Object... value) {
         brk(value);
     }
+
+    public static void cntn() {
+        throw new Continue();
+    }
+
+    public static void _continue_() {
+        cntn();
+    }
 }

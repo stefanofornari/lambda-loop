@@ -30,7 +30,7 @@ public class ArraySequenceTest {
         String[] array = {"a", "b", "c"};
         new ArraySequence<>(array).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(3);
@@ -55,7 +55,7 @@ public class ArraySequenceTest {
 
         new ArraySequence<>(array).from(2).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(3);
@@ -70,7 +70,7 @@ public class ArraySequenceTest {
 
         new ArraySequence<>(array).from(1).to(3).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(3);
@@ -85,7 +85,7 @@ public class ArraySequenceTest {
 
         new ArraySequence<>(array).from(3).to(1).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(3);
@@ -108,7 +108,7 @@ public class ArraySequenceTest {
 
         new ArraySequence<>(array).from(0).to(100).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(3); // Should loop 0, 1, 2
@@ -122,7 +122,7 @@ public class ArraySequenceTest {
 
         Loop.on((String[]) null).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(0);
@@ -136,7 +136,7 @@ public class ArraySequenceTest {
 
         Loop.on(new String[]{}).loop((index, element) -> {
             counter.incrementAndGet();
-            sb.append(index).append(":").append(element).append(",");
+            sb.append(index).append(":").append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(0);
@@ -171,7 +171,7 @@ public class ArraySequenceTest {
 
         new ArraySequence<>(array).loop(element -> {
             counter.incrementAndGet();
-            sb.append(element).append(",");
+            sb.append(element).append(',');
         });
 
         then(counter.get()).isEqualTo(3);
@@ -188,4 +188,19 @@ public class ArraySequenceTest {
         });
         then(result).isEqualTo("c");
     }
+
+    @Test
+    public void loop_continues_on_continue() {
+        final String[] array = {"a", "b", "c", "d", "e"};
+
+        final StringBuilder sb = new StringBuilder();
+        new ArraySequence<>(array).<String>loop((index, element) -> {
+            if (index == 2) {
+                Loop.cntn();
+            }
+            sb.append(index).append(':').append(element).append(',');
+        });
+        then(sb.toString()).isEqualTo("0:a,1:b,3:d,4:e,");
+    }
+
 }
