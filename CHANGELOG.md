@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0]
+* Implemented #10 - continue() to go to the next item
+* Updated documentation
 
 ## [0.5.0]
 * Completed impletentation of #6 - Loop over Enum and Iterator
