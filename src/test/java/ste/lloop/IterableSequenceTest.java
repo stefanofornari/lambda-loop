@@ -86,13 +86,26 @@ class IterableSequenceTest {
 
     @Test
     public void loop_returns_value_on_break() {
-        final List<String> list = Arrays.asList("a", "b", "c", "d", "e");
-        String result = new IterableSequence<>(list).<String>loop((index, element) -> {
+        String result = new IterableSequence<>(
+            Arrays.asList("a", "b", "c", "d", "e")
+        ).loop((index, element) -> {
             if (index == 2) {
                 Loop.brk(element);
             }
         });
         then(result).isEqualTo("c");
+    }
+
+    @Test
+    public void loop_continues_on_continue() {
+        final StringBuilder sb = new StringBuilder();
+        new IterableSequence<>(Arrays.asList("a", "b", "c", "d", "e")).loop((index, element) -> {
+            if (index == 2) {
+                Loop.cntn();
+            }
+            sb.append(index).append(':').append(element).append(',');
+        });
+        then(sb.toString()).isEqualTo("0:a,1:b,3:d,4:e,");
     }
 
     @Test
@@ -143,4 +156,5 @@ class IterableSequenceTest {
         then(counter.get()).isEqualTo(3);
         then(sb.toString()).isEqualTo("0:a,2:c,4:e,");
     }
+
 }

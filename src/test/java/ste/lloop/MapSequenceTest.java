@@ -42,14 +42,14 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).loop((index, key, value) -> {
-            result.append(index).append(":").append(key).append("=").append(value).append(";");
+            result.append(index).append(':').append(key).append('=').append(value).append(',');
             count.incrementAndGet();
         });
 
         //
         // Then
         //
-        then(result.toString()).isEqualTo("0:one=1;1:two=2;2:three=3;");
+        then(result.toString()).isEqualTo("0:one=1,1:two=2,2:three=3,");
         then(count.get()).isEqualTo(3);
 
 
@@ -64,7 +64,7 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).loop((key, value) -> {
-            result.append(key).append("=").append(value);
+            result.append(key).append('=').append(value);
             count.incrementAndGet();
         });
 
@@ -92,14 +92,14 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).loop((key, value) -> {
-            result.append(key).append("=").append(value).append(";");
+            result.append(key).append('=').append(value).append(',');
             count.incrementAndGet();
         });
 
         //
         // Then
         //
-        then(result.toString()).isEqualTo("alpha=10;beta=20;");
+        then(result.toString()).isEqualTo("alpha=10,beta=20,");
         then(count.get()).isEqualTo(2);
     }
 
@@ -162,14 +162,14 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).from(2).loop((index, key, value) -> {
-            result.append(index).append(":").append(key).append("=").append(value).append(";");
+            result.append(index).append(':').append(key).append('=').append(value).append(',');
             count.incrementAndGet();
         });
 
         //
         // Then
         //
-        then(result.toString()).isEqualTo("2:three=3;3:four=4;");
+        then(result.toString()).isEqualTo("2:three=3,3:four=4,");
         then(count.get()).isEqualTo(2);
     }
 
@@ -191,14 +191,14 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).to(1).loop((index, key, value) -> {
-            result.append(index).append(":").append(key).append("=").append(value).append(";");
+            result.append(index).append(':').append(key).append('=').append(value).append(',');
             count.incrementAndGet();
         });
 
         //
         // Then
         //
-        then(result.toString()).isEqualTo("0:one=1;1:two=2;");
+        then(result.toString()).isEqualTo("0:one=1,1:two=2,");
         then(count.get()).isEqualTo(2);
     }
 
@@ -221,14 +221,14 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).step(2).loop((index, key, value) -> {
-            result.append(index).append(":").append(key).append("=").append(value).append(";");
+            result.append(index).append(':').append(key).append('=').append(value).append(',');
             count.incrementAndGet();
         });
 
         //
         // Then
         //
-        then(result.toString()).isEqualTo("0:a=1;2:c=3;4:e=5;");
+        then(result.toString()).isEqualTo("0:a=1,2:c=3,4:e=5,");
         then(count.get()).isEqualTo(3);
     }
 
@@ -251,14 +251,14 @@ class MapSequenceTest {
         // When
         //
         new MapSequence<>(testMap).from(4).to(0).step(2).loop((index, key, value) -> {
-            result.append(index).append(":").append(key).append("=").append(value).append(";");
+            result.append(index).append(':').append(key).append('=').append(value).append(',');
             count.incrementAndGet();
         });
 
         //
         // Then
         //
-        then(result.toString()).isEqualTo("4:e=5;2:c=3;0:a=1;");
+        then(result.toString()).isEqualTo("4:e=5,2:c=3,0:a=1,");
         then(count.get()).isEqualTo(3);
     }
 
@@ -302,5 +302,67 @@ class MapSequenceTest {
         thenThrownBy(() -> new MapSequence<>(testMap).from(-1))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("from can not be less than zero");
+    }
+
+    @Test
+    public void loop_returns_value_on_break() {
+        //
+        // Given
+        //
+        Map<String, Integer> testMap = new LinkedHashMap<>();
+        testMap.put("one", 1);
+        testMap.put("two", 2);
+        testMap.put("three", 3);
+        testMap.put("four", 4);
+
+        AtomicInteger count = new AtomicInteger(0);
+
+        //
+        // When
+        //
+        final String result = new MapSequence<>(testMap).loop((index, key, value) -> {
+            if (index == 2) {
+                Loop.brk(key);
+            }
+
+            count.incrementAndGet();
+        });
+
+        //
+        // Then
+        //
+        then(count.get()).isEqualTo(2);
+        then(result).isEqualTo("three");
+    }
+
+    @Test
+    public void loop_continues_on_continue() {
+        //
+        // Given
+        //
+        Map<String, Integer> testMap = new LinkedHashMap<>();
+        testMap.put("one", 1);
+        testMap.put("two", 2);
+        testMap.put("three", 3);
+        testMap.put("four", 4);
+
+        AtomicInteger count = new AtomicInteger(0);
+
+        //
+        // When
+        //
+        final StringBuilder sb = new StringBuilder();
+        new MapSequence<>(testMap).loop((index, key, value) -> {
+            if (index == 2) {
+                Loop.cntn();
+            }
+            count.incrementAndGet();
+            sb.append(index).append(':').append(key).append('=').append(value).append(',');
+        });
+
+        //
+        // Then
+        //
+        then(sb.toString()).isEqualTo("0:one=1,1:two=2,3:four=4,");
     }
 }

@@ -115,4 +115,14 @@ public class LoopTest {
             .extracting("value")
             .isNull();
     }
+
+    @Test
+    public void cntn_throws_Continue() {
+        //
+        // with values
+        //
+        thenThrownBy(() -> Loop.cntn())
+            .isInstanceOf(Continue.class)
+            .hasMessage(null);
+    }
 }

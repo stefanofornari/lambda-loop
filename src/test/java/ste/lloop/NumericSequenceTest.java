@@ -91,6 +91,18 @@ public class NumericSequenceTest {
     }
 
     @Test
+    public void loop_continues_on_continue() {
+        final StringBuilder sb = new StringBuilder();
+        new NumericSequence().from(1).to(10).<String>loop(i -> {
+            if (i == 5) {
+                Loop.cntn();
+            }
+            sb.append(i).append(',');
+        });
+        then(sb.toString()).isEqualTo("1,2,3,4,6,7,8,9,10,");
+    }
+
+    @Test
     public void infinite_loop_is_broken_by_brk() {
         Integer result = new NumericSequence().from(0).<Integer>loop(i -> {
             if (i == 100) {
