@@ -39,7 +39,7 @@ public class Example {
 }
 ```
 
-### Looping over sequences
+### Looping over sequences (Arrays, Iterables, etc.)
 
 ```java
 import ste.lloop.Loop;
@@ -84,13 +84,6 @@ public class Example {
              System.out.println("element: " + element);
         });
 
-        // loops over lines from a file
-        // Loop.on(new java.io.File("path/to/file.txt")).loop(line -> {
-        //      System.out.println("Line: " + line);
-        // });
-
-
-
         // If a null array is provided, the loop will not execute.
         Loop.on((String[]) null).loop((index, element) -> {
             System.out.println("This will not be printed.");
@@ -102,6 +95,31 @@ public class Example {
         });
     }
 }
+```
+
+### Looping over Strings
+
+You can iterate through the characters of a `String` (or any `CharSequence`):
+
+```java
+import ste.lloop.Loop;
+
+Loop.on("Hello").loop((index, character) -> {
+    System.out.println("index: " + index + ", character: " + character);
+});
+```
+
+### Looping over Files and Paths
+
+λLoop simplifies reading files line by line, handling resource management automatically:
+
+```java
+import ste.lloop.Loop;
+import java.io.File;
+
+Loop.on(new File("path/to/file.txt")).loop(line -> {
+    System.out.println("Line: " + line);
+});
 ```
 
 ### Looping over Maps
