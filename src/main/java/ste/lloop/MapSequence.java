@@ -16,13 +16,9 @@
 package ste.lloop;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import static ste.lloop.Loop._break_;
 
 /**
  * A sequence that loops over a map.
