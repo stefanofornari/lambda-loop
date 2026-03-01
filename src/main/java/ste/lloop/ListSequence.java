@@ -42,11 +42,20 @@ public class ListSequence<T> extends IndexedSequence<T> {
 
         final int size = list.size();
 
+        //
+        // If to is not provoded, we set it taking into account we can not set
+        // to and a negative step (to and positive step is valid instead).
+        // If to is not null, to/from/step are already properly set.
+        //
         if (indexes.to == null) {
-            indexes.to(size - 1);
-        }
-
-        if (indexes.to >= size) {
+            if (indexes.step >= 0) {
+                indexes.to(size - 1);
+            } else {
+                indexes.step(-indexes.step);
+                indexes.from(size - 1);
+                indexes.to(0);
+            }
+        } else if (indexes.to > size-1) {
             indexes.to(size - 1);
         }
 
