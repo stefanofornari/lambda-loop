@@ -415,7 +415,9 @@ Loop.on().from(0).to(10).step(2).loop(i -> {
 
 Looping backwards is straightforward with λLoop.
 
-You can achieve a backward loop by setting the `to` value to be less than the `from` value.
+#### Numeric Sequences
+
+For numeric sequences, you can achieve a backward loop by setting the `to` value to be less than the `from` value.
 
 ```java
 // Traditional for loop, looping backwards
@@ -429,6 +431,37 @@ Loop.on().from(10).to(0).loop(i -> {
 });
 ```
 
+#### Sequences with Implicit Boundaries (Arrays, Lists, Strings, etc.)
+
+For sequences that have a defined size, such as arrays, lists, or strings, you can use a negative step to automatically loop backwards from the end of the sequence to the beginning.
+
+When `to` is not specified, λLoop uses the sequence's size to determine the boundaries. A negative step triggers a backward iteration starting from the last element.
+
+```java
+String[] array = {"a", "b", "c", "d", "e"};
+
+// Loop backwards from the last element to the first
+Loop.on(array).step(-1).loop((index, element) -> {
+    // index will be 4, 3, 2, 1, 0
+    // element will be "e", "d", "c", "b", "a"
+});
+```
+
+This also works for lists and strings:
+
+```java
+List<String> list = List.of("x", "y", "z");
+Loop.on(list).step(-2).loop(element -> {
+    // element will be "z", "x"
+});
+
+Loop.on("Hello").step(-1).loop(character -> {
+    // character will be 'o', 'l', 'l', 'e', 'H'
+});
+```
+
+#### Infinite Loops
+
 For infinite loops, you can use a negative step to loop backwards indefinitely until `Loop.brk()` is called.
 
 ```java
@@ -439,7 +472,7 @@ Loop.on().from(0).step(-1).loop(i -> {
 });
 ```
 
-Note that a negative step is only allowed when the `to` value is not set. If you attempt to use a negative step when `to` is defined, an `IllegalArgumentException` will be thrown.
+Note that a negative step is only allowed when the `to` value is not explicitly set. If you attempt to use a negative step when `to` is defined, an `IllegalArgumentException` will be thrown.
 
 ### Looping over a sub-section of an array
 
