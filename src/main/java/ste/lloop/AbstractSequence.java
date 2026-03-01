@@ -81,5 +81,22 @@ public abstract class AbstractSequence<S extends AbstractSequence<S, T>, T> {
         return (S) this;
     }
 
-
+    protected void adjustIndexes(final int size) {
+        //
+        // If to is not provoded, we set it taking into account we can not set
+        // to and a negative step (to and positive step is valid instead).
+        // If to is not null, to/from/step are already properly set.
+        //
+        if (indexes.to == null) {
+            if (indexes.step >= 0) {
+                indexes.to(size - 1);
+            } else {
+                indexes.step(-indexes.step);
+                indexes.from(size - 1);
+                indexes.to(0);
+            }
+        } else if (indexes.to > size-1) {
+            indexes.to(size - 1);
+        }
+    }
 }

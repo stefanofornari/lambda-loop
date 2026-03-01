@@ -64,19 +64,19 @@ public class NumericSequenceTest {
     @Test
     public void loop_with_step() {
         // from(0).to(10).step(2) -> 0,2,..,10
-        final StringBuilder sb1 = new StringBuilder();
-        new NumericSequence().from(0).to(10).step(2).loop(sb1::append);
-        then(sb1.toString()).isEqualTo("0246810");
+        final StringBuilder sb = new StringBuilder();
+        new NumericSequence().from(0).to(10).step(2).loop(sb::append);
+        then(sb.toString()).isEqualTo("0246810");
 
         // from(10).to(0).step(2) -> 10,8,..,0
-        final StringBuilder sb2 = new StringBuilder();
-        new NumericSequence().from(10).to(0).step(2).loop(sb2::append);
-        then(sb2.toString()).isEqualTo("1086420");
+        sb.delete(0, sb.length());
+        new NumericSequence().from(10).to(0).step(2).loop(sb::append);
+        then(sb.toString()).isEqualTo("1086420");
 
         // step is zero, no loop
-        final StringBuilder sb5 = new StringBuilder();
-        new NumericSequence().from(0).to(10).step(0).loop(sb5::append);
-        then(sb5.toString()).isEmpty();
+        sb.delete(0, sb.length());
+        new NumericSequence().from(0).to(10).step(0).loop(sb::append);
+        then(sb.toString()).isEmpty();
     }
 
     @Test

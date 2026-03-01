@@ -148,19 +148,24 @@ public class ArraySequenceTest {
         final String[] array = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
 
         // from(0).to(10).step(2) -> 0,2,..,10
-        final StringBuilder sb1 = new StringBuilder();
-        new ArraySequence<>(array).from(0).to(10).step(2).loop((index, element) -> sb1.append(index).append(element));
-        then(sb1.toString()).isEqualTo("0a2c4e6g8i10k");
+        final StringBuilder sb = new StringBuilder();
+        new ArraySequence<>(array).from(0).to(10).step(2).loop((index, element) -> sb.append(index).append(element));
+        then(sb.toString()).isEqualTo("0a2c4e6g8i10k");
 
         // from(10).to(0).step(2) -> 10,8,..,0
-        final StringBuilder sb2 = new StringBuilder();
-        new ArraySequence<>(array).from(10).to(0).step(2).loop((index, element) -> sb2.append(index).append(element));
-        then(sb2.toString()).isEqualTo("10k8i6g4e2c0a");
+        sb.delete(0, sb.length());
+        new ArraySequence<>(array).from(10).to(0).step(2).loop((index, element) -> sb.append(index).append(element));
+        then(sb.toString()).isEqualTo("10k8i6g4e2c0a");
 
         // step is zero, no loop
-        final StringBuilder sb5 = new StringBuilder();
-        new ArraySequence<>(array).from(0).to(10).step(0).loop((index, element) -> sb5.append(index).append(element));
-        then(sb5.toString()).isEmpty();
+        sb.delete(0, sb.length());
+        new ArraySequence<>(array).from(0).to(10).step(0).loop((index, element) -> sb.append(index).append(element));
+        then(sb.toString()).isEmpty();
+
+        // negative step with no from/to
+        sb.delete(0, sb.length());
+        new ArraySequence<>(array).step(-2).loop((index, element) -> sb.append(index).append(element));
+        then(sb.toString()).isEqualTo("10k8i6g4e2c0a");
     }
 
     @Test

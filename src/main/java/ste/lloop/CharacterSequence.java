@@ -38,18 +38,12 @@ public class CharacterSequence extends IndexedSequence<Character> {
 
     @Override
     public <R> R loop(final BiConsumer<Integer, Character> consumer) {
-        final int l;
-        if ((sequence == null) || ((l = sequence.length())) == 0) {
-            return null; // Do nothing for null or empty array
+        if (sequence == null || sequence.length() == 0) {
+            return null;
         }
 
-        if (indexes.to == null) {
-            indexes.to = l - 1;
-        } else {
-            if (indexes.to > l - 1) {
-                indexes.to = l - 1;
-            }
-        }
+        adjustIndexes(sequence.length());
+
         return indexes.loop((i) -> consumer.accept(i, sequence.charAt(i)));
     }
 }

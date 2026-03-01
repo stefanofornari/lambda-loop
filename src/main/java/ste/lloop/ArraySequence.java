@@ -39,13 +39,8 @@ public class ArraySequence<T> extends IndexedSequence<T> {
             return null; // Do nothing for null or empty array
         }
 
-        if (indexes.to == null) {
-            indexes.to = array.length - 1;
-        } else {
-            if (indexes.to > array.length - 1) {
-                indexes.to = array.length - 1;
-            }
-        }
+        adjustIndexes(array.length);
+
         return indexes.loop((i) -> consumer.accept(i, array[i]));
     }
 }

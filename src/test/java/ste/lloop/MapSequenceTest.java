@@ -260,6 +260,21 @@ class MapSequenceTest {
         //
         then(result.toString()).isEqualTo("4:e=5,2:c=3,0:a=1,");
         then(count.get()).isEqualTo(3);
+
+        //
+        // When (negative step with no from/to)
+        //
+        result.delete(0, result.length()); count.set(0);
+        new MapSequence<>(testMap).step(-2).loop((index, key, value) -> {
+            result.append(index).append(':').append(key).append('=').append(value).append(',');
+            count.incrementAndGet();
+        });
+
+        //
+        // Then
+        //
+        then(result.toString()).isEqualTo("4:e=5,2:c=3,0:a=1,");
+        then(count.get()).isEqualTo(3);
     }
 
     @Test

@@ -53,17 +53,8 @@ public class MapSequence<K, V> extends AbstractSequence<MapSequence<K, V>, Map.E
         }
 
         final List<Map.Entry<K, V>> entries = new ArrayList<>(map.entrySet());
-        final int size = entries.size();
 
-        // If 'to' is not set, default it to the last index.
-        if (indexes.to == null) {
-            indexes.to(size - 1);
-        }
-
-        // Eagerly cap the 'to' value to the last valid index.
-        if (indexes.to >= size) {
-            indexes.to(size - 1);
-        }
+        adjustIndexes(entries.size());
 
         // Now we can delegate to NumericSequence, confident that it will not
         // generate an index that is out of the list's upper bounds.
