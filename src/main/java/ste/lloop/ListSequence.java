@@ -40,15 +40,7 @@ public class ListSequence<T> extends IndexedSequence<T> {
             return null;
         }
 
-        final int size = list.size();
-
-        if (indexes.to == null) {
-            indexes.to(size - 1);
-        }
-
-        if (indexes.to >= size) {
-            indexes.to(size - 1);
-        }
+        adjustIndexes(list.size());
 
         return indexes.loop(index -> {
             consumer.accept(index, list.get(index));

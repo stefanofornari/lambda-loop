@@ -16,13 +16,9 @@
 package ste.lloop;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import static ste.lloop.Loop._break_;
 
 /**
  * A sequence that loops over a map.
@@ -57,17 +53,8 @@ public class MapSequence<K, V> extends AbstractSequence<MapSequence<K, V>, Map.E
         }
 
         final List<Map.Entry<K, V>> entries = new ArrayList<>(map.entrySet());
-        final int size = entries.size();
 
-        // If 'to' is not set, default it to the last index.
-        if (indexes.to == null) {
-            indexes.to(size - 1);
-        }
-
-        // Eagerly cap the 'to' value to the last valid index.
-        if (indexes.to >= size) {
-            indexes.to(size - 1);
-        }
+        adjustIndexes(entries.size());
 
         // Now we can delegate to NumericSequence, confident that it will not
         // generate an index that is out of the list's upper bounds.
