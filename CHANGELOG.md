@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1]
+* Fixed #13 - java.lang.IllegalArgumentException: a negative step is not allowed when to is set.
+  It now supports looping backwards by just setting a negative step as long as
+  no 'to' has been provided
+
 ## [0.6.0]
 * Implemented #10 - continue() to go to the next item
 * Updated documentation
