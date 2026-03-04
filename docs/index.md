@@ -12,7 +12,7 @@
       <p></p>λLoop provides a fluent and expressive way to create loops in Java.
       <p></p>With λLoop, you won't write any more <i>.stream().filter().findXXX()</i>
       when you really need just to loop through a list of elements.
-   </td>
+    </td>
   </tr>
 </table>
 
@@ -21,7 +21,11 @@
 * [Introduction](introduction.md)
 * [Getting Started](getting-started.md)
 * [Tutorial](tutorial.md) (TBD)
-* [Common patters](patterns.md) (TBD)
+* [Common patterns](patterns.md) (TBD)
 * [API Documentation](apidocs/index.html)
 * [Support](support.md)
 * [Changelog](https://github.com/stefanofornari/lambda-loop/blob/main/CHANGELOG.md)
+
+<p style="font-size: 0.8em; margin-top: 20px; color: #666; text-align: right;">
+  This project is sponsored by the chat platform <a href="https://zulip.com" style="color: #666;">Zulip</a>.
+</p>
