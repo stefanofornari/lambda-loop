@@ -6,7 +6,7 @@
     <version>0.6.2-SNAPSHOT</version>
     <name>λLoop</name>
     <description>A fluent and expressive way to create loops in Java.</description>
-    <url>https://lambda-loop.github.io/</url>
+    <url>https://stefanofornari.github.io/lambda-loop/</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
