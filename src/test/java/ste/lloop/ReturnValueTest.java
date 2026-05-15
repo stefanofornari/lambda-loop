@@ -15,8 +15,10 @@
  */
 package ste.lloop;
 
-import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.jupiter.api.Test;
+import static ste.lloop.Loop.on;
+import static ste.lloop.Loop._break_;
 
 public class ReturnValueTest {
 
@@ -50,7 +52,7 @@ public class ReturnValueTest {
     }
 
     @Test
-    public void return_value_as_a_exeption() {
+    public void return_value_as_a_throwable() {
         try {
             throw new ReturnValue("hello");
         } catch (ReturnValue v) {
@@ -62,5 +64,25 @@ public class ReturnValueTest {
         } catch (ReturnValue v) {
             then((Integer)v.value()).isEqualTo(10);
         }
+    }
+
+    @Test
+    public void return_value_is_a_NoStackError() {
+        then(new ReturnValue()).isInstanceOf(NoStackError.class);
+    }
+
+    @Test
+    public void break_with_catch() {
+        final StringBuffer sb = new StringBuffer();
+        on("one", "two", "three").loop((i, s) -> {
+            try {
+                if (i%2  != 0) {
+                    _break_();
+                }
+            } catch (Exception x) {}
+            sb.append(s);
+        });
+
+        then(sb).asString().isEqualTo("one");
     }
 }

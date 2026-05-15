@@ -15,20 +15,17 @@
  */
 package ste.lloop;
 
-/**
- * An exception used to end the execution of an iteration and continue with the
- * next item.
- *
- */
-public class NoStackException extends RuntimeException {
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.then;
+
+public class NoStackErrorTest {
+
+    @Test
     /**
-     * Overridden to avoid to create a stack trace, which is an expensive and
-     * resource intensive operation.
-     *
-     * @return this
+     * NoStackThrowable shall be a Throwable and not an Exception so that
+     * it is not capture in common try {} catch (Exception) statements.
      */
-    @Override
-    public synchronized Throwable fillInStackTrace() {
-        return this;
+    public void NoStackThrowable_is_a_Throwable() {
+        then(new Continue()).isInstanceOf(NoStackError.class);
     }
 }

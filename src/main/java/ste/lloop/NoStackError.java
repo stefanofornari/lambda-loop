@@ -20,5 +20,15 @@ package ste.lloop;
  * next item.
  *
  */
-public class Continue extends NoStackError {
+public class NoStackError extends Error {
+    /**
+     * Overridden to avoid to create a stack trace, which is an expensive and
+     * resource intensive operation.
+     *
+     * @return this
+     */
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
 }

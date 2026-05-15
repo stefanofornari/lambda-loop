@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.2]
+* Fixed #16 - break/continue do not work in a try{} catch (Exception) block
+
 ## [0.6.1]
 * Fixed #13 - java.lang.IllegalArgumentException: a negative step is not allowed when to is set.
   It now supports looping backwards by just setting a negative step as long as

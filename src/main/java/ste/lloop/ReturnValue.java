@@ -19,7 +19,7 @@ package ste.lloop;
  * A holder for a return value that can be used in a lambda expression.
  *
  */
-public class ReturnValue extends NoStackException {
+public class ReturnValue extends NoStackError {
 
     /**
      * The value of the return value.
