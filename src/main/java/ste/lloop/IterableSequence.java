@@ -68,7 +68,7 @@ public class IterableSequence<T> extends ForwardOnlySequence<T> {
                     // We ran out of elements before reaching the targetIndex
                     // This can happen if 'to' is set beyond the actual size
                     // or if 'from' is beyond the actual size.
-                    _break_(targetIndex);
+                    _break_((Object)null);
                 }
                 element = iterator.next();
                 currentIndex.incrementAndGet();

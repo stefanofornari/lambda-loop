@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.3]
+* Fixed #17 - loop() returns not null value (integer) after continue() in some cases
+
 ## [0.6.2]
 * Fixed #16 - break/continue do not work in a try{} catch (Exception) block
 
